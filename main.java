@@ -23,10 +23,7 @@ public class main {
 
         //Fluidic Control
         Fluidic experiment = new Fluidic();
-        experiment.getSelector().getCurrentPosition();
-        experiment.wash();
-        experiment.injectBuffer();
-        experiment.startIncorp0();
+        experiment.pumpTest();
 
 //        /*
 //         * load user interface

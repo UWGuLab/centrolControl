@@ -74,6 +74,7 @@ public class Fluidic {
         Thread.sleep(1000);
         the_selector.switchValve(11);
         Thread.sleep(1000);
+        the_selector.getCurrentPosition();
     }
 
     public void wash() throws InterruptedException {
