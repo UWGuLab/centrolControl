@@ -212,14 +212,15 @@ public class WindowEventDemo extends javax.swing.JFrame {
             // TODO add your handling code here:
             gui_.loadAcquisition("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\AcqSettings20180427.xml");
             PositionList positionList = gui_.getPositionList();
-            positionList.load("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\20180427_test_grid.pos");
+            positionList.load("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\20180427_test.pos");
             for (int i = 0; i < numOfCyc; i++) {
 
                 experiment.runSequencing(i + 1);
 //                gui_.runAcquisition();
-                gui_.runAcquisition("Incorp", "C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\");
-
+                gui_.runAcquisition("Incorp", "C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180428_testrun\\");
             }
+            gui_.closeAllAcquisitions();
+            System.exit(0);
 //        } catch (InterruptedException ex) {
 //            Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MMException ex) {

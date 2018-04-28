@@ -74,7 +74,9 @@ public class Fluidic {
         Thread.sleep(1000);
         the_selector.switchValve(11);
         Thread.sleep(1000);
-        the_selector.getCurrentPosition();
+        the_selector.switchValve(13);
+        Thread.sleep(1000);
+//        the_selector.getCurrentPosition();
     }
 
     public void wash() throws InterruptedException {
@@ -309,61 +311,61 @@ public class Fluidic {
         the_pump.intialize();
         Thread.sleep(12000);
 
-        //Cleavage
-        System.out.println("Cleavage Buffer Port 9 HighSpeed 1 time and NormalSpeed 1 time.");
-        the_selector.switchValve(9);
-        Thread.sleep(1000);
-        //high speed
-        the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(1);
-        //normal speed
-        the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(1);
-
-        System.out.println("It is time to take 280 seconds break.");
-        //hold for 280 seconds break
-        Thread.sleep(280000);
-        System.out.println("Cleavage Buffer Port 21 NormalSpeed 1 time.");
-        //normal speed
-        runNCyclesAtNormSpeed(1);
-
-        System.out.println("The second break will take 200 seconds.");
-        //hold for 200 seconds break
-        Thread.sleep(200000);
-
-        System.out.println("High Salt Buffer Port 11 HighSpeed 6 times and NormalSpeed 2 times.");
-        //high salt
-        the_selector.switchValve(11);
-        Thread.sleep(1000);
-        //high speed
-        the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(6);
-        //normal speed
-        the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(2);
-
-        System.out.println("Tris Wash Port 13 HighSpeed 2 times.");
-        // Tris wash
-        the_selector.switchValve(13);
-        Thread.sleep(1000);
-        //high speed
-        the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(2);
-
-        System.out.println("Incorp Mix Port 15 NormalSpeed 2 times.");
-        //Incorp Mix
-        the_selector.switchValve(15);
-        Thread.sleep(1000);
-        //normal speed
-        the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(2);
-
+//        //Cleavage
+//        System.out.println("Cleavage Buffer Port 9 HighSpeed 1 time and NormalSpeed 1 time.");
+//        the_selector.switchValve(9);
+//        Thread.sleep(1000);
+//        //high speed
+//        the_pump.setMaxSpeed(10000);
+//        Thread.sleep(1000);
+//        runNCyclesAtHighSpeed(1);
+//        //normal speed
+//        the_pump.setMaxSpeed(3333);
+//        Thread.sleep(1000);
+//        runNCyclesAtNormSpeed(1);
+//
+//        System.out.println("It is time to take 280 seconds break.");
+//        //hold for 280 seconds break
+//        Thread.sleep(280000);
+//        System.out.println("Cleavage Buffer Port 21 NormalSpeed 1 time.");
+//        //normal speed
+//        runNCyclesAtNormSpeed(1);
+//
+//        System.out.println("The second break will take 200 seconds.");
+//        //hold for 200 seconds break
+//        Thread.sleep(200000);
+//
+//        System.out.println("High Salt Buffer Port 11 HighSpeed 6 times and NormalSpeed 2 times.");
+//        //high salt
+//        the_selector.switchValve(11);
+//        Thread.sleep(1000);
+//        //high speed
+//        the_pump.setMaxSpeed(10000);
+//        Thread.sleep(1000);
+//        runNCyclesAtHighSpeed(6);
+//        //normal speed
+//        the_pump.setMaxSpeed(3333);
+//        Thread.sleep(1000);
+//        runNCyclesAtNormSpeed(2);
+//
+//        System.out.println("Tris Wash Port 13 HighSpeed 2 times.");
+//        // Tris wash
+//        the_selector.switchValve(13);
+//        Thread.sleep(1000);
+//        //high speed
+//        the_pump.setMaxSpeed(10000);
+//        Thread.sleep(1000);
+//        runNCyclesAtHighSpeed(2);
+//
+//        System.out.println("Incorp Mix Port 15 NormalSpeed 2 times.");
+//        //Incorp Mix
+//        the_selector.switchValve(15);
+//        Thread.sleep(1000);
+//        //normal speed
+//        the_pump.setMaxSpeed(3333);
+//        Thread.sleep(1000);
+//        runNCyclesAtNormSpeed(2);
+//
         System.out.println("Color Dye Port 17 HighSpeed 2 times and NormalSpeed 2 times.");
         //Color Dye
         the_selector.switchValve(17);
@@ -376,32 +378,32 @@ public class Fluidic {
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
         runNCyclesAtNormSpeed(1);
-
-        System.out.println("Taking 3rd break for 220 seconds.");
-        //hold for 220 seconds break
-        Thread.sleep(220000);
-
-        System.out.println("Dark Dye Port 19 NormalSpeed 2 times.");
-        // Dark dye
-        the_selector.switchValve(19);
-        Thread.sleep(1000);
-        //normal speed
-        the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(2);
-
-        System.out.println("Taking the final break for 180 seconds.");
-        //hold for 180 seconds break
-        Thread.sleep(180000);
-
-        System.out.println("IM Buffer Port 21 HighSpeed 2 times.");
-        // IM Buffer
-        the_selector.switchValve(21);
-        Thread.sleep(1000);
-        //high speed
-        the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(2);
+//
+//        System.out.println("Taking 3rd break for 220 seconds.");
+//        //hold for 220 seconds break
+//        Thread.sleep(220000);
+//
+//        System.out.println("Dark Dye Port 19 NormalSpeed 2 times.");
+//        // Dark dye
+//        the_selector.switchValve(19);
+//        Thread.sleep(1000);
+//        //normal speed
+//        the_pump.setMaxSpeed(3333);
+//        Thread.sleep(1000);
+//        runNCyclesAtNormSpeed(2);
+//
+//        System.out.println("Taking the final break for 180 seconds.");
+//        //hold for 180 seconds break
+//        Thread.sleep(180000);
+//
+//        System.out.println("IM Buffer Port 21 HighSpeed 2 times.");
+//        // IM Buffer
+//        the_selector.switchValve(21);
+//        Thread.sleep(1000);
+//        //high speed
+//        the_pump.setMaxSpeed(10000);
+//        Thread.sleep(1000);
+//        runNCyclesAtHighSpeed(2);
 
         System.out.println("Incorp " + counter + " is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
 
