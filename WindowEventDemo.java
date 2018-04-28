@@ -219,7 +219,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
 //                gui_.runAcquisition();
                 gui_.runAcquisition("Incorp", "C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180428_testrun\\");
             }
-            gui_.closeAllAcquisitions();
+            gui_.closeSequence(true);
             System.exit(0);
 //        } catch (InterruptedException ex) {
 //            Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
