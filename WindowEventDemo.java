@@ -216,8 +216,8 @@ public class WindowEventDemo extends javax.swing.JFrame {
             for (int i = 0; i < numOfCyc; i++) {
 
                 experiment.runSequencing(i + 1);
-                
-                gui_.runAcquisition("Incorp", "C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\");
+                gui_.runAcquisition();
+//                gui_.runAcquisition("Incorp", "C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\");
 
             }
         } catch (InterruptedException ex) {
