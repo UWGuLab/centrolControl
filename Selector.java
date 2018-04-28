@@ -26,27 +26,27 @@ public class Selector {
 		System.out.println("Parity should be None: " + selectorPort.getParity());
 
 		//TODO: neeeds to figure out how to add listener
-		if (!selectorPort.isOpen()){
-			selectorPort.openPort();
-                        selectorPort.addDataListener(new SerialPortDataListener() {
-                        @Override
-                        public int getListeningEvents() {
-                            return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
-                        }
-
-                        @Override
-                        public void serialEvent(SerialPortEvent event) {
-                            if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
-                                return;
-                            }
-                            byte[] newData = new byte[selectorPort.bytesAvailable()];
-                            int numRead = selectorPort.readBytes(newData, newData.length);
-                            System.out.println("Read " + numRead + " bytes.");
-                        }
-                        });
-
-			System.out.println("selector port has opened.");
-		}
+//		if (!selectorPort.isOpen()){
+//			selectorPort.openPort();
+//                        selectorPort.addDataListener(new SerialPortDataListener() {
+//                        @Override
+//                        public int getListeningEvents() {
+//                            return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+//                        }
+//
+//                        @Override
+//                        public void serialEvent(SerialPortEvent event) {
+//                            if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+//                                return;
+//                            }
+//                            byte[] newData = new byte[selectorPort.bytesAvailable()];
+//                            int numRead = selectorPort.readBytes(newData, newData.length);
+//                            System.out.println("Read " + numRead + " bytes.");
+//                        }
+//                        });
+//
+//			System.out.println("selector port has opened.");
+//		}
 	}
 
 	// TODO: TEST if function works
