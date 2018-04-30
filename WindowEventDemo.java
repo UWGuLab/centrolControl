@@ -10,10 +10,12 @@
  */
 package centrolControl;
 
+import clooj.core;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mmcorej.CMMCore;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
 import org.micromanager.utils.MMScriptException;
@@ -204,6 +206,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
         //open Acquisition Control Dialog for cycle 0
         gui_.openAcqControlDialog();
+
     }//GEN-LAST:event_btnInvokeMMActionPerformed
 
     private void btnSequencingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSequencingMouseClicked
@@ -221,8 +224,8 @@ public class WindowEventDemo extends javax.swing.JFrame {
             }
             gui_.closeSequence(true);
             System.exit(0);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MMException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MMScriptException ex) {
