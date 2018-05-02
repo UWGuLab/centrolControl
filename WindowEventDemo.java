@@ -10,12 +10,11 @@
  */
 package centrolControl;
 
-import clooj.core;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mmcorej.CMMCore;
+import javax.swing.JFileChooser;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
 import org.micromanager.utils.MMScriptException;
@@ -239,7 +238,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 gui_.runAcquisition("Incorp", saveDirectory);
             }
             gui_.closeSequence(true);
-            System.exit(0);
+//            System.exit(0);
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MMException ex) {
