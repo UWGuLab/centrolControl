@@ -213,14 +213,30 @@ public class WindowEventDemo extends javax.swing.JFrame {
         try {
             int numOfCyc = Integer.parseInt(TextFieldNumCycles.getText());
             // TODO add your handling code here:
-            gui_.loadAcquisition("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\AcqSettings20180427.xml");
+
+            experiment.showMessage("Please choose the Multi-D configuration file", "File Selection");
+            String acquisitionConfigFile = fileChooser();
+            acquisitionConfigFile = acquisitionConfigFile.replace("\\", "\\\\");
+            gui_.loadAcquisition(acquisitionConfigFile);
+//            gui_.loadAcquisition("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\AcqSettings20180427.xml");
+
+
             PositionList positionList = gui_.getPositionList();
-            positionList.load("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\20180427_test.pos");
+            experiment.showMessage("Please choose the position list file", "File Selection");
+            String positionListFile = fileChooser();
+            positionListFile = positionListFile.replace("\\", "\\\\");
+            positionList.load(positionListFile);
+//            positionList.load("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\20180427_test.pos");
+
+
+            experiment.showMessage("Please choose where you want to save the images", "Save Directory");
+            String saveDirectory = dirChooser();
+            saveDirectory = saveDirectory.replace("\\", "\\\\");
+
             for (int i = 0; i < numOfCyc; i++) {
 
                 experiment.runSequencing(i + 1);
-//                gui_.runAcquisition();
-                gui_.runAcquisition("Incorp", "C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180428_testrun\\");
+                gui_.runAcquisition("Incorp", saveDirectory);
             }
             gui_.closeSequence(true);
             System.exit(0);
@@ -234,6 +250,20 @@ public class WindowEventDemo extends javax.swing.JFrame {
             System.out.println("There was an error.");
         }
     }//GEN-LAST:event_btnSequencingMouseClicked
+
+    private String fileChooser() {
+        JFileChooser f = new JFileChooser();
+        f.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        f.showSaveDialog(null);
+        return f.getSelectedFile().getAbsolutePath();
+    }
+
+    private String dirChooser() {
+        JFileChooser f = new JFileChooser();
+        f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        f.showSaveDialog(null);
+        return f.getSelectedFile().getAbsolutePath();
+    }
 
     private void btnSequencingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSequencingActionPerformed
         // TODO add your handling code here:
