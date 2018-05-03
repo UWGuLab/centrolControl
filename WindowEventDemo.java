@@ -10,10 +10,12 @@
  */
 package centrolControl;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
@@ -27,8 +29,9 @@ import org.micromanager.api.PositionList;
 public class WindowEventDemo extends javax.swing.JFrame {
 
     //Fluidic Control
-    Fluidic experiment;
-    MMStudio gui_;
+    protected Fluidic experiment;
+    protected MMStudio gui_;
+    private Preferences pref = Preferences.userRoot().node(getClass().getName());
 
     /** Creates new form WindowEventDemo */
     public WindowEventDemo() {
@@ -215,7 +218,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
     private void btnSequencingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSequencingMouseClicked
         try {
-            int numOfCyc = Integer.parseInt(jFormattedTextFieldNumOfCycle.getText());           
+            int numOfCyc = Integer.parseInt(jFormattedTextFieldNumOfCycle.getText());
 
             Fluidic.showMessage("Please choose the Multi-D configuration file", "File Selection");
             String acquisitionConfigFile = fileChooser();
@@ -255,7 +258,6 @@ public class WindowEventDemo extends javax.swing.JFrame {
             gui_.closeSequence(true);
             gui_.closeAllAcquisitions();
 
-
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MMException ex) {
@@ -268,10 +270,29 @@ public class WindowEventDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSequencingMouseClicked
 
     private String fileChooser() {
-        JFileChooser f = new JFileChooser();
-        f.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        f.showSaveDialog(null);
-        return f.getSelectedFile().getAbsolutePath();
+        // Retrieve the selected path or use
+        // an empty string if no path has
+        // previously been selected
+        String path = pref.get("DEFAULT_PATH", "");
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        // set the path that was saved in preferences
+        chooser.setCurrentDirectory(new File(path));
+
+        int returnVal = chooser.showOpenDialog(null);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+            chooser.setCurrentDirectory(f);
+
+            // Save the selected path
+            pref.put("DEFAULT_PATH", f.getAbsolutePath());
+            return f.getAbsolutePath();
+        }
+
+        return chooser.getSelectedFile().getAbsolutePath();
     }
 
     private String dirChooser() {
