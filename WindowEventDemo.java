@@ -120,9 +120,10 @@ public class WindowEventDemo extends javax.swing.JFrame {
                         .addComponent(btnWash)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnInjectBuffer))
-                    .addComponent(btnInvokeMM)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCyc0)
+                        .addGap(14, 14, 14)
+                        .addComponent(btnInvokeMM)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnContinueCyc0))
                     .addGroup(layout.createSequentialGroup()
@@ -131,7 +132,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                         .addComponent(TextFieldNumCycles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LabelNumOfCyc)))
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,10 +142,9 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     .addComponent(btnWash)
                     .addComponent(btnInjectBuffer))
                 .addGap(18, 18, 18)
-                .addComponent(btnInvokeMM)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCyc0)
+                    .addComponent(btnInvokeMM)
                     .addComponent(btnContinueCyc0))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +152,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                         .addComponent(btnSequencing)
                         .addComponent(TextFieldNumCycles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(LabelNumOfCyc))
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LabelNumOfCyc, TextFieldNumCycles, btnSequencing});
@@ -232,17 +232,26 @@ public class WindowEventDemo extends javax.swing.JFrame {
             String saveDirectory = dirChooser();
             saveDirectory = saveDirectory.replace("\\", "\\\\");
 
-            for (int i = 0; i < numOfCyc - 1; i++) {
+            if (numOfCyc > 1) {
+                for (int i = 0; i < numOfCyc - 1; i++) {
 
-                experiment.runSequencing(i + 1);
+                    experiment.runSequencing(i + 1);
+                    gui_.runAcquisition("Incorp", saveDirectory);
+                }
+                experiment.lastSequencingCycle();
                 gui_.runAcquisition("Incorp", saveDirectory);
+
+            } else if (numOfCyc == 1) {
+                experiment.runSequencing(1);
+                gui_.runAcquisition("Incorp", saveDirectory);
+            } else {
+                throw new IllegalArgumentException("cannot run negative number of incorporation cycles.");
             }
-            experiment.lastSequencingCycle();
-            gui_.runAcquisition("Incorp", saveDirectory);
-            
+
             gui_.closeSequence(true);
             gui_.closeAllAcquisitions();
-//            System.exit(0);
+
+
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MMException ex) {

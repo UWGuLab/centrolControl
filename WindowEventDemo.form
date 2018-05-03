@@ -30,9 +30,10 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnInjectBuffer" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="btnInvokeMM" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="1">
                       <Component id="btnCyc0" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                      <Component id="btnInvokeMM" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnContinueCyc0" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -44,7 +45,7 @@
                       <Component id="LabelNumOfCyc" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="157" max="32767" attributes="0"/>
+              <EmptySpace pref="151" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -57,10 +58,9 @@
                   <Component id="btnInjectBuffer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btnInvokeMM" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnCyc0" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnInvokeMM" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnContinueCyc0" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -71,7 +71,7 @@
                   </Group>
                   <Component id="LabelNumOfCyc" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="143" max="32767" attributes="0"/>
+              <EmptySpace pref="184" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
