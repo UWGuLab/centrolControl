@@ -213,7 +213,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             int numOfCyc = Integer.parseInt(TextFieldNumCycles.getText());
             // TODO add your handling code here:
 
-            experiment.showMessage("Please choose the Multi-D configuration file", "File Selection");
+            Fluidic.showMessage("Please choose the Multi-D configuration file", "File Selection");
             String acquisitionConfigFile = fileChooser();
             acquisitionConfigFile = acquisitionConfigFile.replace("\\", "\\\\");
             gui_.loadAcquisition(acquisitionConfigFile);
@@ -221,22 +221,25 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
 
             PositionList positionList = gui_.getPositionList();
-            experiment.showMessage("Please choose the position list file", "File Selection");
+            Fluidic.showMessage("Please choose the position list file", "File Selection");
             String positionListFile = fileChooser();
             positionListFile = positionListFile.replace("\\", "\\\\");
             positionList.load(positionListFile);
 //            positionList.load("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\20180427_test.pos");
 
 
-            experiment.showMessage("Please choose where you want to save the images", "Save Directory");
+            Fluidic.showMessage("Please choose where you want to save the images", "Save Directory");
             String saveDirectory = dirChooser();
             saveDirectory = saveDirectory.replace("\\", "\\\\");
 
-            for (int i = 0; i < numOfCyc; i++) {
+            for (int i = 0; i < numOfCyc - 1; i++) {
 
                 experiment.runSequencing(i + 1);
                 gui_.runAcquisition("Incorp", saveDirectory);
             }
+            experiment.lastSequencingCycle();
+            gui_.runAcquisition("Incorp", saveDirectory);
+            
             gui_.closeSequence(true);
             gui_.closeAllAcquisitions();
 //            System.exit(0);

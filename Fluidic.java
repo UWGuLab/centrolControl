@@ -111,12 +111,12 @@ public class Fluidic {
         the_selector.switchValve(9);
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(cleavBufVOl);
-        System.out.println("port 9 cleav buff washed " + cleavBufVOl/the_pump.maxVol + " times using " + cleavBufVOl + " uL.");
+        System.out.println("port 9 cleav buff washed " + cleavBufVOl / the_pump.maxVol + " times using " + cleavBufVOl + " uL.");
 
         the_selector.switchValve(11);
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(highSaltVol);
-        System.out.println("port 11 high salt buff washed " + highSaltVol/the_pump.maxVol + " times " + highSaltVol + " uL.");
+        System.out.println("port 11 high salt buff washed " + highSaltVol / the_pump.maxVol + " times " + highSaltVol + " uL.");
 
         for (int i = 0; i < 10; i++) {
             the_selector.switchValve(13);
@@ -177,23 +177,16 @@ public class Fluidic {
             the_pump.dispose(48000);
             Thread.sleep(6000);
         }
-        the_pump.flipToSolution();
-        Thread.sleep(1000);
-        the_pump.setPosition(parameters[1] * 48000 / 250);
-        Thread.sleep(6000);
-        the_pump.flipToWaster();
-        Thread.sleep(1000);
-        the_pump.dispose(parameters[1] * 48000 / 250);
-        Thread.sleep(6000);
-    }
-
-    private int[] calPumpCycAndVol(int volume) {
-        int[] result = new int[2];
-        int numCyc = volume / the_pump.maxVol;
-        int remainder = volume % the_pump.maxVol;
-        result[0] = numCyc;
-        result[1] = remainder;
-        return result;
+        if (parameters[1] > 0) {
+            the_pump.flipToSolution();
+            Thread.sleep(1000);
+            the_pump.setPosition(parameters[1] * 48000 / 250);
+            Thread.sleep(6000);
+            the_pump.flipToWaster();
+            Thread.sleep(1000);
+            the_pump.dispose(parameters[1] * 48000 / 250);
+            Thread.sleep(6000);
+        }
     }
 
     private void runNCyclesAtNormSpeed(int volume) throws InterruptedException {
@@ -209,14 +202,25 @@ public class Fluidic {
             the_pump.dispose(48000);
             Thread.sleep(16000);
         }
-        the_pump.flipToSolution();
-        Thread.sleep(1000);
-        the_pump.setPosition(parameters[1] * 48000 / 250);
-        Thread.sleep(16000);
-        the_pump.flipToWaster();
-        Thread.sleep(1000);
-        the_pump.dispose(parameters[1] * 48000 / 250);
-        Thread.sleep(16000);
+        if (parameters[1] > 0) {
+            the_pump.flipToSolution();
+            Thread.sleep(1000);
+            the_pump.setPosition(parameters[1] * 48000 / 250);
+            Thread.sleep(16000);
+            the_pump.flipToWaster();
+            Thread.sleep(1000);
+            the_pump.dispose(parameters[1] * 48000 / 250);
+            Thread.sleep(16000);
+        }
+    }
+
+    private int[] calPumpCycAndVol(int volume) {
+        int[] result = new int[2];
+        int numCyc = volume / the_pump.maxVol;
+        int remainder = volume % the_pump.maxVol;
+        result[0] = numCyc;
+        result[1] = remainder;
+        return result;
     }
 
     public void injectBuffer() throws InterruptedException, FileNotFoundException, IOException {
@@ -447,7 +451,101 @@ public class Fluidic {
         runNCyclesAtHighSpeed(500);
 
         System.out.println("Incorp " + counter + " is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
+    }
 
+     public void lastSequencingCycle() throws InterruptedException {
+
+        stopwatch.reset();
+        stopwatch.start();
+
+        System.out.println("Final Incorpration Cycle Starts");
+
+        //get start
+        the_pump.intialize();
+        Thread.sleep(12000);
+
+        //Cleavage
+        System.out.println("Cleavage Buffer Port 9 HighSpeed 200uL and NormalSpeed 200uL.");
+        the_selector.switchValve(9);
+        Thread.sleep(1000);
+        //high speed
+        the_pump.setMaxSpeed(10000);
+        Thread.sleep(1000);
+        runNCyclesAtHighSpeed(200);
+        //normal speed
+        the_pump.setMaxSpeed(3333);
+        Thread.sleep(1000);
+        runNCyclesAtNormSpeed(200);
+
+        System.out.println("It is time to take 280 seconds break.");
+        //hold for 280 seconds break
+        Thread.sleep(280000);
+        System.out.println("Cleavage Buffer Port 21 NormalSpeed 200uL.");
+        //normal speed
+        runNCyclesAtNormSpeed(200);
+
+        System.out.println("The second break will take 200 seconds.");
+        //hold for 200 seconds break
+        Thread.sleep(200000);
+
+        System.out.println("High Salt Buffer Port 11 HighSpeed 1500uL and NormalSpeed 500uL.");
+        //high salt
+        the_selector.switchValve(11);
+        Thread.sleep(1000);
+        //high speed
+        the_pump.setMaxSpeed(10000);
+        Thread.sleep(1000);
+        runNCyclesAtHighSpeed(1500);
+        //normal speed
+        the_pump.setMaxSpeed(3333);
+        Thread.sleep(1000);
+        runNCyclesAtNormSpeed(500);
+
+        System.out.println("Tris Wash Port 13 HighSpeed 500uL.");
+        // Tris wash
+        the_selector.switchValve(13);
+        Thread.sleep(1000);
+        //high speed
+        the_pump.setMaxSpeed(10000);
+        Thread.sleep(1000);
+        runNCyclesAtHighSpeed(500);
+
+        System.out.println("Incorp Mix Port 15 NormalSpeed 500uL.");
+        //Incorp Mix
+        the_selector.switchValve(15);
+        Thread.sleep(1000);
+        //normal speed
+        the_pump.setMaxSpeed(3333);
+        Thread.sleep(1000);
+        runNCyclesAtNormSpeed(500);
+
+        System.out.println("Color Dye Port 17 HighSpeed 250uL and NormalSpeed 250uL");
+        //Color Dye
+        the_selector.switchValve(17);
+        Thread.sleep(1000);
+        //high speed
+        the_pump.setMaxSpeed(10000);
+        Thread.sleep(1000);
+        runNCyclesAtHighSpeed(250);
+        //normal speed
+        the_pump.setMaxSpeed(3333);
+        Thread.sleep(1000);
+        runNCyclesAtNormSpeed(250);
+
+        System.out.println("Taking 3rd break for 220 seconds.");
+        //hold for 220 seconds break
+        Thread.sleep(220000);
+
+        System.out.println("IM Buffer Port 21 HighSpeed 500uL.");
+        // IM Buffer
+        the_selector.switchValve(21);
+        Thread.sleep(1000);
+        //high speed
+        the_pump.setMaxSpeed(10000);
+        Thread.sleep(1000);
+        runNCyclesAtHighSpeed(500);
+
+        System.out.println("The final incorp cycle is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
     }
 
     //TODO: not working, need to fix
