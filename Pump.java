@@ -6,6 +6,7 @@ import com.fazecast.jSerialComm.*;
 public class Pump {
 
 	private SerialPort pumpPort;
+        protected int maxVol = 250; //max volume is 250 micro liters.
 
 	/*
 	 * Default constructor: instantiates a Pump object with user input
