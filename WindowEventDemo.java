@@ -52,8 +52,8 @@ public class WindowEventDemo extends javax.swing.JFrame {
         btnInvokeMM = new javax.swing.JButton();
         btnSequencing = new javax.swing.JButton();
         btnContinueCyc0 = new javax.swing.JButton();
-        TextFieldNumCycles = new javax.swing.JTextField();
         LabelNumOfCyc = new javax.swing.JLabel();
+        jFormattedTextFieldNumOfCycle = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,10 +104,15 @@ public class WindowEventDemo extends javax.swing.JFrame {
             }
         });
 
-        TextFieldNumCycles.setColumns(5);
-        TextFieldNumCycles.setText("1");
-
         LabelNumOfCyc.setText("Number Of Cycles");
+
+        jFormattedTextFieldNumOfCycle.setText("1");
+        jFormattedTextFieldNumOfCycle.setPreferredSize(new java.awt.Dimension(12, 20));
+        jFormattedTextFieldNumOfCycle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldNumOfCycleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,8 +133,8 @@ public class WindowEventDemo extends javax.swing.JFrame {
                         .addComponent(btnContinueCyc0))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSequencing)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(TextFieldNumCycles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextFieldNumOfCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LabelNumOfCyc)))
                 .addContainerGap(151, Short.MAX_VALUE))
@@ -148,14 +153,14 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     .addComponent(btnContinueCyc0))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSequencing)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnSequencing)
-                        .addComponent(TextFieldNumCycles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(LabelNumOfCyc))
+                        .addComponent(jFormattedTextFieldNumOfCycle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(LabelNumOfCyc)))
                 .addContainerGap(184, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LabelNumOfCyc, TextFieldNumCycles, btnSequencing});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LabelNumOfCyc, btnSequencing});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -210,8 +215,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
     private void btnSequencingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSequencingMouseClicked
         try {
-            int numOfCyc = Integer.parseInt(TextFieldNumCycles.getText());
-            // TODO add your handling code here:
+            int numOfCyc = Integer.parseInt(jFormattedTextFieldNumOfCycle.getText());           
 
             Fluidic.showMessage("Please choose the Multi-D configuration file", "File Selection");
             String acquisitionConfigFile = fileChooser();
@@ -292,6 +296,10 @@ public class WindowEventDemo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnContinueCyc0MouseClicked
 
+    private void jFormattedTextFieldNumOfCycleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldNumOfCycleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldNumOfCycleActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -305,12 +313,12 @@ public class WindowEventDemo extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelNumOfCyc;
-    private javax.swing.JTextField TextFieldNumCycles;
     private javax.swing.JButton btnContinueCyc0;
     private javax.swing.JButton btnCyc0;
     private javax.swing.JButton btnInjectBuffer;
     private javax.swing.JButton btnInvokeMM;
     private javax.swing.JButton btnSequencing;
     private javax.swing.JButton btnWash;
+    private javax.swing.JFormattedTextField jFormattedTextFieldNumOfCycle;
     // End of variables declaration//GEN-END:variables
 }
