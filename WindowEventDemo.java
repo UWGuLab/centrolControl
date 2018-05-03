@@ -238,6 +238,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 gui_.runAcquisition("Incorp", saveDirectory);
             }
             gui_.closeSequence(true);
+            gui_.closeAllAcquisitions();
 //            System.exit(0);
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
