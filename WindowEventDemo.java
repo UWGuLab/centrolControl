@@ -276,7 +276,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         String path = pref.get("DEFAULT_PATH", "");
 
         JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
         // set the path that was saved in preferences
         chooser.setCurrentDirectory(new File(path));
