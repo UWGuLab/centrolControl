@@ -296,10 +296,28 @@ public class WindowEventDemo extends javax.swing.JFrame {
     }
 
     private String dirChooser() {
-        JFileChooser f = new JFileChooser();
-        f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        f.showSaveDialog(null);
-        return f.getSelectedFile().getAbsolutePath();
+        // Retrieve the selected path or use
+        // an empty string if no path has
+        // previously been selected
+        String path = pref.get("DEFAULT_PATH", "");
+        
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        // set the path that was saved in preferences
+        chooser.setCurrentDirectory(new File(path));
+
+        int returnVal = chooser.showOpenDialog(null);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File f = chooser.getSelectedFile();
+            chooser.setCurrentDirectory(f);
+
+            // Save the selected path
+            pref.put("DEFAULT_PATH", f.getAbsolutePath());
+            return f.getAbsolutePath();
+        }        
+        return chooser.getSelectedFile().getAbsolutePath();
     }
 
     private void btnSequencingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSequencingActionPerformed
