@@ -69,25 +69,14 @@ public class Fluidic {
         System.out.println("port 9 125uL");
         the_pump.intialize();
         Thread.sleep(12000);
-        the_selector.switchValve(9);
-        Thread.sleep(1000);
-        the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(125);
 
-        System.out.println("port 11 375uL");
         the_selector.switchValve(11);
         Thread.sleep(1000);
-        the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(375);
+        runNCyclesAtHighSpeed(1000);
 
-        System.out.println("port 13 500uL");
         the_selector.switchValve(13);
         Thread.sleep(1000);
-        the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(500);
+        runNCyclesAtHighSpeed(250);
 //        the_selector.getCurrentPosition();
     }
 
@@ -255,7 +244,7 @@ public class Fluidic {
 
         the_selector.switchValve(11);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCyclesAtHighSpeed(1000);
 
         the_selector.switchValve(13);
         Thread.sleep(1000);
@@ -453,7 +442,7 @@ public class Fluidic {
         System.out.println("Incorp " + counter + " is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
     }
 
-     public void lastSequencingCycle() throws InterruptedException {
+    public void lastSequencingCycle() throws InterruptedException {
 
         stopwatch.reset();
         stopwatch.start();

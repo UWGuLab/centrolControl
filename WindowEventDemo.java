@@ -254,7 +254,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             } else {
                 throw new IllegalArgumentException("cannot run negative number of incorporation cycles.");
             }
-
+            experiment.getSelector().switchValve(01);
             gui_.closeSequence(true);
             gui_.closeAllAcquisitions();
 
@@ -300,7 +300,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         // an empty string if no path has
         // previously been selected
         String path = pref.get("DEFAULT_PATH", "");
-        
+
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
@@ -316,7 +316,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             // Save the selected path
             pref.put("DEFAULT_PATH", f.getAbsolutePath());
             return f.getAbsolutePath();
-        }        
+        }
         return chooser.getSelectedFile().getAbsolutePath();
     }
 
