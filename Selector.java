@@ -7,7 +7,7 @@ public class Selector {
 
     private int currentPosition; // records the current Position of valve
     private SerialPort selectorPort;
-    private int[] validPositions = {9, 11, 13, 15, 17, 19, 21}; // records currently being used positions
+    private int[] validPositions = {9, 11, 13, 15, 17, 19, 20, 21}; // records currently being used positions
     // records the baud rates that can be used
     private int[] validBaudRate = {1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400};
     private SerialPortDataListener listener;
@@ -108,6 +108,9 @@ public class Selector {
                     break;
                 case 19:
                     command = "*GO19\r";
+                    break;
+                case 20:
+                    command = "*GO20\r";
                     break;
                 case 21:
                     command = "*GO21\r";

@@ -1,8 +1,8 @@
 
-package Parser;
+package centrolControl.Parser;
 import java.util.*;
 import java.io.*;
-import Instruction.Instruction;
+import centrolControl.Instruction.Instruction;
 
 
 /**

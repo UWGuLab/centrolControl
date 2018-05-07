@@ -1,10 +1,10 @@
 
-package Instruction;
+package centrolControl.Instruction;
 import java.util.*;
 
 /**
  * This class represents an instruction that can be executed. See below for
- * more specifics on what is in the different instruction types and its
+ * more specifics on what is in the different instruction types and 
  * its parameters.
  *
  * @author Gu-Lab, Kitty Li
