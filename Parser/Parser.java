@@ -3,6 +3,7 @@ package centrolControl.Parser;
 import java.util.*;
 import java.io.*;
 import centrolControl.Instruction.Instruction;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 
 /**
@@ -167,5 +168,15 @@ public class Parser {
         }
 
         return copy;
+    }
+
+    public static void main (String[] args){
+        Parser newInstruct = new Parser("C:\\Users\\Nikon\\Documents\\NetBeansProjects\\sequencer\\micromanager\\mmstudio\\src\\centrolControl\\instruction.txt");
+        List<Map<String, Integer>> sections = newInstruct.getSections();
+        System.out.println(newInstruct.getPath());
+        List<Instruction> instructions = newInstruct.getInstructions();
+//        for (int i = 0; i < sections.size(); i++){
+//            instruction = sections.get(i);
+//        }
     }
 }
