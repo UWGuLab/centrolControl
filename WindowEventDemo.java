@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
 import org.micromanager.utils.MMScriptException;
@@ -274,6 +275,8 @@ public class WindowEventDemo extends javax.swing.JFrame {
         String path = pref.get("DEFAULT_PATH", "");
 
         JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("position and xml file", "xml", "pos");
+        chooser.addChoosableFileFilter(fileFilter);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
         // set the path that was saved in preferences
