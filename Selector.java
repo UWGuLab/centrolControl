@@ -7,6 +7,9 @@ public class Selector {
 
     private int currentPosition; // records the current Position of valve
     private SerialPort selectorPort;
+    // currently, valve position 20 is not connected to any chemical, but we swtich
+    // to this position at the end of each procedure to prevent the chemical from
+    // leaking because of gravity.
     private int[] validPositions = {9, 11, 13, 15, 17, 19, 20, 21}; // records currently being used positions
     // records the baud rates that can be used
     private int[] validBaudRate = {1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400};

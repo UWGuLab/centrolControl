@@ -67,6 +67,8 @@ public class Fluidic {
 
     public void pumpTest() throws InterruptedException {
         System.out.println("port 9 125uL");
+        the_pump.flipToWaster();
+        Thread.sleep(1000);
         the_pump.intialize();
         Thread.sleep(12000);
 
@@ -78,6 +80,9 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(250);
 //        the_selector.getCurrentPosition();
+
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
     }
 
     public void wash() throws InterruptedException {
@@ -88,6 +93,8 @@ public class Fluidic {
         stopwatch.start();
 
         //get start
+        the_pump.flipToWaster();
+        Thread.sleep(1000);
         the_pump.intialize();
         Thread.sleep(12000);
 
@@ -149,6 +156,8 @@ public class Fluidic {
             System.out.println("port 17, 19, 21 washed " + counter + " times.");
         }
 
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
         System.out.println("Washing is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
 
     }
@@ -217,9 +226,13 @@ public class Fluidic {
         stopwatch.start();
 
         //get start
+        the_pump.flipToWaster();
+        Thread.sleep(1000);
         the_pump.intialize();
         Thread.sleep(12000);
 
+        the_pump.setMaxSpeed(10000);
+        Thread.sleep(1000);
         System.out.println("Buffer Injection Starts");
 
         the_selector.switchValve(15);
@@ -250,6 +263,11 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(250);
 
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
+
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
         System.out.println("Buffer Injection is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
     }
 
@@ -258,6 +276,8 @@ public class Fluidic {
         stopwatch.start();
 
         //get start
+        the_pump.flipToWaster();
+        Thread.sleep(1000);
         the_pump.intialize();
         Thread.sleep(12000);
 
@@ -320,6 +340,8 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(250);
 
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
         showMessage("Please select the FOVs", "FOV Selection");
 
     }
@@ -331,6 +353,9 @@ public class Fluidic {
         the_pump.setMaxSpeed(10000);
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(500);
+
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
         System.out.println("Incorp 0 is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
     }
 
@@ -342,6 +367,8 @@ public class Fluidic {
         System.out.println("Incorp " + counter + " Starts");
 
         //get start
+        the_pump.flipToWaster();
+        Thread.sleep(1000);
         the_pump.intialize();
         Thread.sleep(12000);
 
@@ -439,6 +466,8 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(500);
 
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
         System.out.println("Incorp " + counter + " is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
     }
 
@@ -450,6 +479,8 @@ public class Fluidic {
         System.out.println("Final Incorpration Cycle Starts");
 
         //get start
+        the_pump.flipToWaster();
+        Thread.sleep(1000);
         the_pump.intialize();
         Thread.sleep(12000);
 
@@ -534,6 +565,8 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(500);
 
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
         System.out.println("The final incorp cycle is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
     }
 
