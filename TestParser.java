@@ -1,7 +1,5 @@
 
-package TestParser;
-import Instruction.Instruction;
-import Parser.Parser;
+package centrolControl;
 
 import java.util.*;
 
@@ -54,7 +52,7 @@ public class TestParser {
 	}
 	
 	public static void testParser() {
-		Parser par = new Parser("C:\\Users\\kitka\\Documents\\UW\\Gu-lab\\Sequencing Parser\\ConfigurationParser\\test\\TestParser\\Instructions.txt");
+		Parser par = new Parser("C:\\Users\\Nikon\\Documents\\NetBeansProjects\\sequencer\\micromanager\\mmstudio\\src\\centrolControl\\Instructions.txt");
 		System.out.println(par.toString());
 		
 		Scanner s = new Scanner(System.in);

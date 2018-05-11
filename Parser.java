@@ -1,8 +1,6 @@
-
-package Parser;
+package centrolControl;
 import java.util.*;
 import java.io.*;
-import Instruction.Instruction;
 
 
 /**
@@ -116,7 +114,7 @@ public class Parser {
                             if (name.isEmpty()) {
                                 name = p;
                             } else if (p.toUpperCase().equals("USER")){
-                                pars.add(0);
+                                pars.add(-1);
                             } else {
                                 System.out.println("One of the parameters is not a number!");
                                 System.out.println(e.getMessage());
