@@ -45,7 +45,7 @@
                       <Component id="LabelNumOfCyc" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="151" max="32767" attributes="0"/>
+              <EmptySpace pref="149" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -120,7 +120,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnContinueCyc0">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Continue"/>
+        <Property name="text" type="java.lang.String" value="IM buffer"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnContinueCyc0MouseClicked"/>

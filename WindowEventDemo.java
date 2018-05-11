@@ -100,7 +100,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             }
         });
 
-        btnContinueCyc0.setText("Continue");
+        btnContinueCyc0.setText("IM buffer");
         btnContinueCyc0.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnContinueCyc0MouseClicked(evt);
@@ -110,7 +110,6 @@ public class WindowEventDemo extends javax.swing.JFrame {
         LabelNumOfCyc.setText("Number Of Cycles");
 
         jFormattedTextFieldNumOfCycle.setText("1");
-        jFormattedTextFieldNumOfCycle.setPreferredSize(new java.awt.Dimension(12, 20));
         jFormattedTextFieldNumOfCycle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jFormattedTextFieldNumOfCycleActionPerformed(evt);
@@ -140,7 +139,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                         .addComponent(jFormattedTextFieldNumOfCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LabelNumOfCyc)))
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
