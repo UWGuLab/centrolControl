@@ -254,7 +254,6 @@ public class WindowEventDemo extends javax.swing.JFrame {
             } else {
                 throw new IllegalArgumentException("cannot run negative number of incorporation cycles.");
             }
-            experiment.getSelector().switchValve(20);
             gui_.closeSequence(true);
             gui_.closeAllAcquisitions();
 
