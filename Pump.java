@@ -44,6 +44,10 @@ public class Pump {
 	 * @param newPosition is the new position where to move the syringe to
 	 * @return no return
 	 */
+        /* TODO: if the future, should add the feature that it will compare the current
+         * position to the future position, if the syringe is moving upword, then
+         * automatically flip the valve to waste, verse visa, flip to the selector.
+         */
 	public void setPosition(int newPosition){
 		if (newPosition < 0 | newPosition > 48000){
 			throw new IllegalArgumentException("The syringe range should be within 0 to 48,000");
@@ -85,7 +89,7 @@ public class Pump {
 		pumpPort.writeBytes(buf, buf.length);
 	}
 
-	// flip relay to solution
+	// flip relay to chemical solution/valve selector
 	public void flipToSolution(){
 		String command = "/1OR\r";
 		byte[] buf = command.getBytes();
@@ -139,6 +143,7 @@ public class Pump {
 		if (volume < 0 | volume > 48000){
 			throw new IllegalArgumentException("The dispose amount should be within 00 to 48000");
 		}
+
 		String command = "/1D" + volume + "R\r";
 		byte[] buf = command.getBytes();
 		pumpPort.writeBytes(buf, buf.length);
