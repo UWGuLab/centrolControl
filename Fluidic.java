@@ -66,23 +66,26 @@ public class Fluidic {
     }
 
     public void pumpTest() throws InterruptedException {
-        System.out.println("port 9 125uL");
         the_pump.flipToWaster();
         Thread.sleep(1000);
         the_pump.intialize();
         Thread.sleep(12000);
 
+        System.out.println("port 11 100uL");
         the_selector.switchValve(11);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(1000);
+        runNCyclesAtHighSpeed(100);
 
+        System.out.println("port 13 250uL");
         the_selector.switchValve(13);
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(250);
 //        the_selector.getCurrentPosition();
 
+        System.out.println("port 20 400uL");
         the_selector.switchValve(20);
         Thread.sleep(1000);
+        runNCyclesAtHighSpeed(400);
     }
 
     public void wash() throws InterruptedException {

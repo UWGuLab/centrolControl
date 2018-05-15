@@ -34,23 +34,22 @@ public class Selector {
             selectorPort.openPort();
             System.out.println("selector port has opened.");
 
-//            selectorPort.addDataListener(new SerialPortDataListener() {
-//
-//                @Override
-//                public int getListeningEvents() {
-//                    return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
-//                }
-//
-//                @Override
-//                public void serialEvent(SerialPortEvent event) {
-//                    if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
-//                        return;
-//                    }
-//                    byte[] newData = new byte[selectorPort.bytesAvailable()];
-//                    int numRead = selectorPort.readBytes(newData, newData.length);
-//                    System.out.println("Read " + numRead + " bytes.");
-//                }
-//            });
+            selectorPort.addDataListener(new SerialPortDataListener() {
+
+                @Override
+                public int getListeningEvents() {
+                    return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
+                }
+
+                @Override
+                public void serialEvent(SerialPortEvent event) {
+                    if (event.getEventType() == SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+                    byte[] newData = new byte[selectorPort.bytesAvailable()];
+                    int numRead = selectorPort.readBytes(newData, newData.length);
+                    System.out.println("Selector Port Read " + numRead + " bytes.");
+                    }
+                }
+            });
         }
     }
 
