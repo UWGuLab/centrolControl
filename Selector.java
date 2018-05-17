@@ -53,6 +53,11 @@ public class Selector {
         }
     }
 
+    public void quit() {
+        selectorPort.closePort();
+        selectorPort.removeDataListener();
+    }
+
     // TODO: TEST if function works
     // return the valve that is currently being used.
     public String getCurrentPosition() {

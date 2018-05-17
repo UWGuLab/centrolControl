@@ -3,7 +3,7 @@ package centrolControl;
 import com.fazecast.jSerialComm.*;
 
 //This is the pump object
-public class Pump {
+public class Pump implements SerialPortPacketListener{
 
     private SerialPort pumpPort;
     protected int maxVol = 250; //max volume is 250 micro liters.
@@ -25,22 +25,13 @@ public class Pump {
         if (!pumpPort.isOpen()) {
             pumpPort.openPort();
             System.out.println("pump port has opened.");
-            pumpPort.addDataListener(new SerialPortDataListener() {
-
-                @Override
-                public int getListeningEvents() {
-                    return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
-                }
-
-                public void serialEvent(SerialPortEvent event) {
-                    if (event.getEventType() == SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
-                        byte[] newData = new byte[pumpPort.bytesAvailable()];
-                        int numRead = pumpPort.readBytes(newData, newData.length);
-                        System.out.println("Pump Port Read " + numRead + " bytes.");
-                    }                  
-                }
-            });
+            pumpPort.addDataListener(this);
         }
+    }
+
+    public void quit() {
+        pumpPort.closePort();
+        pumpPort.removeDataListener();
     }
 
     /*
@@ -166,21 +157,24 @@ public class Pump {
 
     //return the current absolute position of the syringe, the reply should be /0'8000
     public void getPosition() {
-        String command = "/1\r"; //TODO: check if command is correct, or try "/1?R\r"
+        String command = "/1?\r"; //TODO: check if command is correct, or try "/1?R\r"
         byte[] buf = command.getBytes();
-        try {
-            while (true) {
-                while (pumpPort.bytesAvailable() == 0) {
-                    Thread.sleep(20);
-                }
-                byte[] readBuff = new byte[pumpPort.bytesAvailable()];
-                int numRead = pumpPort.readBytes(readBuff, readBuff.length);
-                System.out.println("Read " + numRead + " bytes.");
-                System.out.println(readBuff.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            pumpPort.closePort();
-        }
+        pumpPort.writeBytes(buf, buf.length);
+    }
+
+    public int getPacketSize() {
+        return 8;
+    }
+
+    public int getListeningEvents() {
+        return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
+    }
+
+    public void serialEvent(SerialPortEvent event) {
+        byte[] newData = event.getReceivedData();
+        System.out.println("Received data of size: " + newData.length);
+        for (int i = 0; i < newData.length; ++i)
+            System.out.print((char)newData[i]);
+        System.out.println("\n");
     }
 }

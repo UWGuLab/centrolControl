@@ -68,6 +68,7 @@ public class Fluidic {
     public void pumpTest() throws InterruptedException {
         the_pump.flipToWaster();
         Thread.sleep(1000);
+        System.out.println("initialize");
         the_pump.intialize();
         Thread.sleep(12000);
 
@@ -86,6 +87,9 @@ public class Fluidic {
         the_selector.switchValve(20);
         Thread.sleep(1000);
         runNCyclesAtHighSpeed(400);
+
+        the_pump.quit();
+        the_selector.quit();
     }
 
     public void wash() throws InterruptedException {
@@ -169,12 +173,19 @@ public class Fluidic {
         //TODO: add currentMaxSpeed check
         int[] parameters = calPumpCycAndVol(volume);
         for (int i = 0; i < parameters[0]; i++) {
+            System.out.println("flip to solution");
             the_pump.flipToSolution();
             Thread.sleep(1000);
+            System.out.println("move to position");
             the_pump.setPosition(48000);
             Thread.sleep(6000);
+            System.out.println("request position");
+            the_pump.getPosition();
+            Thread.sleep(500);
+            System.out.println("flip to waste");
             the_pump.flipToWaster();
             Thread.sleep(1000);
+            System.out.println("add chemical");
             the_pump.dispose(48000);
             Thread.sleep(6000);
         }
