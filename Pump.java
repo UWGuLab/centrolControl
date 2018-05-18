@@ -172,9 +172,11 @@ public class Pump implements SerialPortPacketListener{
 
     public void serialEvent(SerialPortEvent event) {
         byte[] newData = event.getReceivedData();
+
         System.out.println("Received data of size: " + newData.length);
         for (int i = 0; i < newData.length; ++i)
-            System.out.print((char)newData[i]);
-        System.out.println("\n");
+//            System.out.print((char)newData[i]);
+            WindowEventDemo.display(String.valueOf((char)newData[i]));
+        WindowEventDemo.display("\n");
     }
 }
