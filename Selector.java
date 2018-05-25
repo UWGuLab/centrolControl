@@ -13,7 +13,6 @@ public class Selector {
     private int[] validPositions = {9, 11, 13, 15, 17, 19, 20, 21}; // records currently being used positions
     // records the baud rates that can be used
     private int[] validBaudRate = {1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400};
-    private SerialPortDataListener listener;
     /*
      * Default constructor: instantiates a Pump object with user input
      */
@@ -34,28 +33,12 @@ public class Selector {
             selectorPort.openPort();
             System.out.println("selector port has opened.");
 
-            selectorPort.addDataListener(new SerialPortDataListener() {
-
-                @Override
-                public int getListeningEvents() {
-                    return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
-                }
-
-                @Override
-                public void serialEvent(SerialPortEvent event) {
-                    if (event.getEventType() == SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
-                    byte[] newData = new byte[selectorPort.bytesAvailable()];
-                    int numRead = selectorPort.readBytes(newData, newData.length);
-                    System.out.println("Selector Port Read " + numRead + " bytes.");
-                    }
-                }
-            });
         }
     }
 
     public void quit() {
         selectorPort.closePort();
-        selectorPort.removeDataListener();
+//        selectorPort.removeDataListener();
     }
 
     // TODO: TEST if function works

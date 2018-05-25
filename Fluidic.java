@@ -19,11 +19,15 @@ public class Fluidic {
     private Pump the_pump;
     private Selector the_selector;
     Stopwatch stopwatch = Stopwatch.createUnstarted();
-
+    private boolean _continue;
     /*
      * Constructor with no parameters
      */
+
     public Fluidic() {
+
+        // initialize the flag
+        _continue = true;
 
         // Gets all available ports
         SerialPort[] ports = SerialPort.getCommPorts();
@@ -70,23 +74,32 @@ public class Fluidic {
         Thread.sleep(1000);
         System.out.println("initialize");
         the_pump.intialize();
+        the_pump.getStatus();
         Thread.sleep(12000);
 
-        System.out.println("port 11 100uL");
-        the_selector.switchValve(11);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(100);
+        the_pump.getStatus();
+        Thread.sleep(500);
+        the_pump.getStatus();
+        Thread.sleep(500);
+        the_pump.getStatus();
+        Thread.sleep(500);
+        the_pump.getStatus();
+        Thread.sleep(500);
 
-        System.out.println("port 13 250uL");
-        the_selector.switchValve(13);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
-//        the_selector.getCurrentPosition();
-
-        System.out.println("port 20 400uL");
-        the_selector.switchValve(20);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(400);
+//        System.out.println("port 11 100uL");
+//        the_selector.switchValve(11);
+//        Thread.sleep(1000);
+//        runNCyclesAtHighSpeed(100);
+//
+//        System.out.println("port 13 250uL");
+//        the_selector.switchValve(13);
+//        Thread.sleep(1000);
+//        runNCyclesAtHighSpeed(250);
+//
+//        System.out.println("port 20 400uL");
+//        the_selector.switchValve(20);
+//        Thread.sleep(1000);
+//        runNCyclesAtHighSpeed(400);
 
         the_pump.quit();
         the_selector.quit();
@@ -177,22 +190,25 @@ public class Fluidic {
             Thread.sleep(1000);
             the_pump.setPosition(48000);
             Thread.sleep(6000);
-            the_pump.getPosition();
+
             Thread.sleep(500);
             the_pump.flipToWaster();
             Thread.sleep(1000);
             the_pump.dispose(48000);
             Thread.sleep(6000);
+
         }
         if (parameters[1] > 0) {
             the_pump.flipToSolution();
             Thread.sleep(1000);
             the_pump.setPosition(parameters[1] * 48000 / 250);
             Thread.sleep(6000);
+
             the_pump.flipToWaster();
             Thread.sleep(1000);
             the_pump.dispose(parameters[1] * 48000 / 250);
             Thread.sleep(6000);
+
         }
     }
 

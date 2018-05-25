@@ -3,14 +3,16 @@ package centrolControl;
 import com.fazecast.jSerialComm.*;
 
 //This is the pump object
-public class Pump implements SerialPortPacketListener{
+public class Pump implements SerialPortPacketListener {
 
     private SerialPort pumpPort;
     protected int maxVol = 250; //max volume is 250 micro liters.
-
+    private String _validator;
+    public final String pattern = "/0`$";
     /*
      * Default constructor: instantiates a Pump object with user input
      */
+
     public Pump(SerialPort port) {
 
         this.pumpPort = port;
@@ -157,9 +159,21 @@ public class Pump implements SerialPortPacketListener{
 
     //return the current absolute position of the syringe, the reply should be /0'8000
     public void getPosition() {
-        String command = "/1?\r"; //TODO: check if command is correct, or try "/1?R\r"
+        String command = "/1?\r";
         byte[] buf = command.getBytes();
+        System.out.println("return position:");
         pumpPort.writeBytes(buf, buf.length);
+    }
+
+    /* query the pump status with a carriage return (hex 0D, decimal 13) character
+     * to determine if the pump is busy or the move has finished.
+     */
+    public void getStatus() {
+        String command = "/1\r";
+        byte[] buf = command.getBytes();
+        System.out.println("return status:");
+        pumpPort.writeBytes(buf, buf.length);
+        validateStatus();
     }
 
     public int getPacketSize() {
@@ -172,11 +186,27 @@ public class Pump implements SerialPortPacketListener{
 
     public void serialEvent(SerialPortEvent event) {
         byte[] newData = event.getReceivedData();
+        char[] result = new char[newData.length];
 
-        System.out.println("Received data of size: " + newData.length);
-        for (int i = 0; i < newData.length; ++i)
-//            System.out.print((char)newData[i]);
-            WindowEventDemo.display(String.valueOf((char)newData[i]));
-        WindowEventDemo.display("\n");
+        for (int i = 0; i < newData.length; ++i) //            System.out.print((char)newData[i]);
+        {
+//            System.out.println((char) newData[i]);
+            result[i] = (char) newData[i];
+        }
+//        WindowEventDemo.display("\n");
+//        System.out.println(result);
+        _validator = String.valueOf(result);
+        System.out.println(_validator);
+    }
+
+    private void validateStatus() {
+
+        if (_validator != null) {
+            if (_validator.matches("0`\\Z")) {
+                System.out.println("OK");
+            } else {
+                System.out.println("not there yet");
+            }
+        }
     }
 }
