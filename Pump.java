@@ -1,6 +1,10 @@
 package centrolControl;
 
 import com.fazecast.jSerialComm.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //This is the pump object
 public class Pump implements SerialPortPacketListener {
@@ -8,7 +12,7 @@ public class Pump implements SerialPortPacketListener {
     private SerialPort pumpPort;
     protected int maxVol = 250; //max volume is 250 micro liters.
     private String _validator;
-    public final String pattern = "/0`$";
+    public final Pattern pattern = Pattern.compile("/0`");
     /*
      * Default constructor: instantiates a Pump object with user input
      */
@@ -43,6 +47,7 @@ public class Pump implements SerialPortPacketListener {
         String command = "/1W4R\r"; //TODO: actually 1 is the device ID, might need to make it an available
         byte[] buf = command.getBytes();
         pumpPort.writeBytes(buf, buf.length);
+        getStatus();
     }
 
     /*
@@ -169,9 +174,13 @@ public class Pump implements SerialPortPacketListener {
      * to determine if the pump is busy or the move has finished.
      */
     public void getStatus() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Pump.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String command = "/1\r";
         byte[] buf = command.getBytes();
-        System.out.println("return status:");
         pumpPort.writeBytes(buf, buf.length);
         validateStatus();
     }
@@ -202,10 +211,17 @@ public class Pump implements SerialPortPacketListener {
     private void validateStatus() {
 
         if (_validator != null) {
-            if (_validator.matches("0`\\Z")) {
-                System.out.println("OK");
+            Matcher matcher = pattern.matcher(_validator);
+            if (matcher.find()) {
+                System.out.println("Ready");
             } else {
-                System.out.println("not there yet");
+                System.out.println("device busy");
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Pump.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                getStatus();
             }
         }
     }

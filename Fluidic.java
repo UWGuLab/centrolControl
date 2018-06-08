@@ -74,17 +74,7 @@ public class Fluidic {
         Thread.sleep(1000);
         System.out.println("initialize");
         the_pump.intialize();
-        the_pump.getStatus();
-        Thread.sleep(12000);
 
-        the_pump.getStatus();
-        Thread.sleep(500);
-        the_pump.getStatus();
-        Thread.sleep(500);
-        the_pump.getStatus();
-        Thread.sleep(500);
-        the_pump.getStatus();
-        Thread.sleep(500);
 
 //        System.out.println("port 11 100uL");
 //        the_selector.switchValve(11);
