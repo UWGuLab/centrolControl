@@ -76,20 +76,20 @@ public class Fluidic {
         the_pump.intialize();
 
 
-//        System.out.println("port 11 100uL");
-//        the_selector.switchValve(11);
-//        Thread.sleep(1000);
-//        runNCyclesAtHighSpeed(100);
-//
-//        System.out.println("port 13 250uL");
-//        the_selector.switchValve(13);
-//        Thread.sleep(1000);
-//        runNCyclesAtHighSpeed(250);
-//
-//        System.out.println("port 20 400uL");
-//        the_selector.switchValve(20);
-//        Thread.sleep(1000);
-//        runNCyclesAtHighSpeed(400);
+        System.out.println("port 11 100uL");
+        the_selector.switchValve(11);
+        Thread.sleep(1000);
+        runNCyclesAtHighSpeed(100);
+
+        System.out.println("port 13 250uL");
+        the_selector.switchValve(13);
+        Thread.sleep(1000);
+        runNCyclesAtHighSpeed(250);
+
+        System.out.println("port 20 400uL");
+        the_selector.switchValve(20);
+        Thread.sleep(1000);
+        runNCyclesAtHighSpeed(400);
 
         the_pump.quit();
         the_selector.quit();
