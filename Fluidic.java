@@ -177,27 +177,26 @@ public class Fluidic {
         int[] parameters = calPumpCycAndVol(volume);
         for (int i = 0; i < parameters[0]; i++) {
             the_pump.flipToSolution();
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             the_pump.setPosition(48000);
-            Thread.sleep(6000);
+//            Thread.sleep(6000);
 
-            Thread.sleep(500);
             the_pump.flipToWaster();
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             the_pump.dispose(48000);
-            Thread.sleep(6000);
+//            Thread.sleep(6000);
 
         }
         if (parameters[1] > 0) {
             the_pump.flipToSolution();
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             the_pump.setPosition(parameters[1] * 48000 / 250);
-            Thread.sleep(6000);
+//            Thread.sleep(6000);
 
             the_pump.flipToWaster();
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             the_pump.dispose(parameters[1] * 48000 / 250);
-            Thread.sleep(6000);
+//            Thread.sleep(6000);
 
         }
     }

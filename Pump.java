@@ -43,11 +43,11 @@ public class Pump implements SerialPortPacketListener {
     /*
      * Initialize the pump
      */
-    public void intialize() {
+    public void intialize() throws InterruptedException {
+        getReady();
         String command = "/1W4R\r"; //TODO: actually 1 is the device ID, might need to make it an available
         byte[] buf = command.getBytes();
         pumpPort.writeBytes(buf, buf.length);
-        getStatus();
     }
 
     /*
@@ -61,7 +61,8 @@ public class Pump implements SerialPortPacketListener {
      * position to the future position, if the syringe is moving upword, then
      * automatically flip the valve to waste, verse visa, flip to the selector.
      */
-    public void setPosition(int newPosition) {
+    public void setPosition(int newPosition) throws InterruptedException {
+        getReady();
         if (newPosition < 0 | newPosition > 48000) {
             throw new IllegalArgumentException("The syringe range should be within 0 to 48,000");
         }
@@ -96,17 +97,20 @@ public class Pump implements SerialPortPacketListener {
     }
 
     // flip relay to waste (this can change in the future depends on the tube configuration)
-    public void flipToWaster() {
+    public void flipToWaster() throws InterruptedException {
+        getReady();
         String command = "/1IR\r";
         byte[] buf = command.getBytes();
         pumpPort.writeBytes(buf, buf.length);
     }
 
     // flip relay to chemical solution/valve selector
-    public void flipToSolution() {
+    public void flipToSolution() throws InterruptedException {
+        getReady();
         String command = "/1OR\r";
         byte[] buf = command.getBytes();
         pumpPort.writeBytes(buf, buf.length);
+
     }
 
     /* setAcceleration /1LxR (1 to 20)
@@ -150,9 +154,10 @@ public class Pump implements SerialPortPacketListener {
     /* dispose liquid /1DxxxxxR the syringe will move xx,xxx steps towards to zero position
      * @param volume amount of liquid to dispose in terms of steps
      */
-    public void dispose(int volume) {
+    public void dispose(int volume) throws InterruptedException {
         //TODO: integrate get current position method so it will know if ask to dispose more than
         // it actually have.
+        getReady();
         if (volume < 0 | volume > 48000) {
             throw new IllegalArgumentException("The dispose amount should be within 00 to 48000");
         }
@@ -173,16 +178,41 @@ public class Pump implements SerialPortPacketListener {
     /* query the pump status with a carriage return (hex 0D, decimal 13) character
      * to determine if the pump is busy or the move has finished.
      */
-    public void getStatus() {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Pump.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//    public void getStatus() {
+//        try {
+////            System.out.println("get Status");
+//            Thread.sleep(500);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(Pump.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        String command = "/1\r";
+//        byte[] buf = command.getBytes();
+//        pumpPort.writeBytes(buf, buf.length);
+//        validateStatus();
+//    }
+
+    private boolean getStatus() {
         String command = "/1\r";
         byte[] buf = command.getBytes();
         pumpPort.writeBytes(buf, buf.length);
-        validateStatus();
+        if (_validator != null) {
+            Matcher matcher = pattern.matcher(_validator);
+            if (matcher.find()) {
+                System.out.println("Ready");
+                return true;
+            } else {
+                System.out.println("device busy");
+            }
+        }
+        return false;
+
+    }
+
+    public void getReady() throws InterruptedException {
+        Thread.sleep(2000);
+        while (!getStatus()) {
+            Thread.sleep(1000);
+        }        
     }
 
     public int getPacketSize() {
@@ -208,21 +238,20 @@ public class Pump implements SerialPortPacketListener {
         System.out.println(_validator);
     }
 
-    private void validateStatus() {
-
-        if (_validator != null) {
-            Matcher matcher = pattern.matcher(_validator);
-            if (matcher.find()) {
-                System.out.println("Ready");
-            } else {
-                System.out.println("device busy");
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Pump.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                getStatus();
-            }
-        }
-    }
+//    private void validateStatus() {
+//        if (_validator != null) {
+//            Matcher matcher = pattern.matcher(_validator);
+//            if (matcher.find()) {
+//                System.out.println("Ready");
+//            } else {
+//                System.out.println("device busy");
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(Pump.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                getStatus();
+//            }
+//        }
+//    }
 }
