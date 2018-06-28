@@ -265,9 +265,6 @@ public class Fluidic {
 
         the_selector.switchValve(20);
         Thread.sleep(1000);
-
-        the_selector.switchValve(20);
-        Thread.sleep(1000);
         System.out.println("Buffer Injection is done, time used : " + stopwatch.elapsed(TimeUnit.MINUTES) + " minutes");
     }
 
@@ -301,44 +298,44 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtNormSpeed(500);
 
-        System.out.println("Color Dye Port 17 HighSpeed 250 uL and NormalSpeed 250uL.");
+        System.out.println("Color Dye Port 17 HighSpeed 200 uL and NormalSpeed 200uL.");
         // Color Dye
         the_selector.switchValve(17);
         Thread.sleep(1000);
         //speed high
         the_pump.setMaxSpeed(10000);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCyclesAtHighSpeed(200);
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
-        runNCyclesAtNormSpeed(250);
+        runNCyclesAtNormSpeed(200);
 
         System.out.println("Time to take 220 seconds break.");
         //hold for 220 seconds break
         Thread.sleep(220000);
 
-        System.out.println("Dark Dye Port 19 NormalSpeed 500uL.");
+        System.out.println("Dark Dye Port 19 NormalSpeed 400uL.");
         // Dark Dye
         the_selector.switchValve(19);
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
-        runNCyclesAtNormSpeed(500);
+        runNCyclesAtNormSpeed(400);
 
         System.out.println("Time to take 180 seconds break.");
         //hold for 180 seconds break
         Thread.sleep(180000);
 
-        System.out.println("IM Buffer Port 21 HighSpeed 500uL.");
+        System.out.println("IM Buffer Port 21 HighSpeed 400uL.");
         // IM Buffer
         the_selector.switchValve(21);
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCyclesAtHighSpeed(400);
 
         the_selector.switchValve(20);
         Thread.sleep(1000);
@@ -388,22 +385,22 @@ public class Fluidic {
         System.out.println("It is time to take 280 seconds break.");
         //hold for 280 seconds break
         Thread.sleep(280000);
-        System.out.println("Cleavage Buffer Port 21 NormalSpeed 200uL.");
+        System.out.println("Cleavage Buffer Port 21 NormalSpeed 150uL.");
         //normal speed
-        runNCyclesAtNormSpeed(200);
+        runNCyclesAtNormSpeed(150);
 
         System.out.println("The second break will take 200 seconds.");
         //hold for 200 seconds break
         Thread.sleep(200000);
 
-        System.out.println("High Salt Buffer Port 11 HighSpeed 1500uL and NormalSpeed 500uL.");
+        System.out.println("High Salt Buffer Port 11 HighSpeed 1200uL and NormalSpeed 500uL.");
         //high salt
         the_selector.switchValve(11);
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(1500);
+        runNCyclesAtHighSpeed(1200);
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
@@ -427,31 +424,31 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtNormSpeed(500);
 
-        System.out.println("Color Dye Port 17 HighSpeed 250uL and NormalSpeed 250uL");
+        System.out.println("Color Dye Port 17 HighSpeed 200uL and NormalSpeed 200uL");
         //Color Dye
         the_selector.switchValve(17);
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCyclesAtHighSpeed(200);
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
-        runNCyclesAtNormSpeed(250);
+        runNCyclesAtNormSpeed(200);
 
         System.out.println("Taking 3rd break for 220 seconds.");
         //hold for 220 seconds break
         Thread.sleep(220000);
 
-        System.out.println("Dark Dye Port 19 NormalSpeed 500uL.");
+        System.out.println("Dark Dye Port 19 NormalSpeed 400uL.");
         // Dark dye
         the_selector.switchValve(19);
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
-        runNCyclesAtNormSpeed(500);
+        runNCyclesAtNormSpeed(400);
 
         System.out.println("Taking the final break for 180 seconds.");
         //hold for 180 seconds break
@@ -500,22 +497,22 @@ public class Fluidic {
         System.out.println("It is time to take 280 seconds break.");
         //hold for 280 seconds break
         Thread.sleep(280000);
-        System.out.println("Cleavage Buffer Port 21 NormalSpeed 200uL.");
+        System.out.println("Cleavage Buffer Port 21 NormalSpeed 150uL.");
         //normal speed
-        runNCyclesAtNormSpeed(200);
+        runNCyclesAtNormSpeed(150);
 
         System.out.println("The second break will take 200 seconds.");
         //hold for 200 seconds break
         Thread.sleep(200000);
 
-        System.out.println("High Salt Buffer Port 11 HighSpeed 1500uL and NormalSpeed 500uL.");
+        System.out.println("High Salt Buffer Port 11 HighSpeed 1200uL and NormalSpeed 500uL.");
         //high salt
         the_selector.switchValve(11);
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(1500);
+        runNCyclesAtHighSpeed(1200);
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
@@ -539,18 +536,18 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtNormSpeed(500);
 
-        System.out.println("Color Dye Port 17 HighSpeed 250uL and NormalSpeed 250uL");
+        System.out.println("Color Dye Port 17 HighSpeed 200uL and NormalSpeed 200uL");
         //Color Dye
         the_selector.switchValve(17);
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCyclesAtHighSpeed(200);
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
-        runNCyclesAtNormSpeed(250);
+        runNCyclesAtNormSpeed(200);
 
         System.out.println("Taking 3rd break for 220 seconds.");
         //hold for 220 seconds break
