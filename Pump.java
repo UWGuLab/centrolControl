@@ -191,10 +191,12 @@ public class Pump implements SerialPortPacketListener {
 //        validateStatus();
 //    }
 
-    private boolean getStatus() {
+    private boolean getStatus() throws InterruptedException {
+        _validator = null;
         String command = "/1\r";
         byte[] buf = command.getBytes();
         pumpPort.writeBytes(buf, buf.length);
+        Thread.sleep(500);
         if (_validator != null) {
             Matcher matcher = pattern.matcher(_validator);
             if (matcher.find()) {
@@ -209,9 +211,9 @@ public class Pump implements SerialPortPacketListener {
     }
 
     public void getReady() throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(500);
         while (!getStatus()) {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }        
     }
 
