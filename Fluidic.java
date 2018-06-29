@@ -298,7 +298,7 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtNormSpeed(500);
 
-        System.out.println("Color Dye Port 17 HighSpeed 200 uL and NormalSpeed 200uL.");
+        System.out.println("Color Dye Port 17 HighSpeed 200 uL and NormalSpeed 70uL.");
         // Color Dye
         the_selector.switchValve(17);
         Thread.sleep(1000);
@@ -309,7 +309,7 @@ public class Fluidic {
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
-        runNCyclesAtNormSpeed(200);
+        runNCyclesAtNormSpeed(70);
 
         System.out.println("Time to take 220 seconds break.");
         //hold for 220 seconds break
@@ -424,18 +424,18 @@ public class Fluidic {
         Thread.sleep(1000);
         runNCyclesAtNormSpeed(500);
 
-        System.out.println("Color Dye Port 17 HighSpeed 200uL and NormalSpeed 200uL");
+        System.out.println("Color Dye Port 17 HighSpeed 50uL and NormalSpeed 50uL");
         //Color Dye
         the_selector.switchValve(17);
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(200);
+        runNCyclesAtHighSpeed(50);
         //normal speed
         the_pump.setMaxSpeed(3333);
         Thread.sleep(1000);
-        runNCyclesAtNormSpeed(200);
+        runNCyclesAtNormSpeed(50);
 
         System.out.println("Taking 3rd break for 220 seconds.");
         //hold for 220 seconds break
