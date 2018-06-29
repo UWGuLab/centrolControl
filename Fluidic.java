@@ -1,7 +1,6 @@
 package centrolControl;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 import com.fazecast.jSerialComm.SerialPort;
 import com.google.common.base.Stopwatch;
 import java.applet.Applet;
@@ -18,7 +17,11 @@ public class Fluidic {
     private Pump the_pump;
     private Selector the_selector;
     Stopwatch stopwatch = Stopwatch.createUnstarted();
+
     private boolean _continue;
+
+    private Parser parser;
+
     /*
      * Constructor with no parameters
      */
@@ -32,7 +35,7 @@ public class Fluidic {
         SerialPort[] ports = SerialPort.getCommPorts();
 
         // Displays all available ports for the use to use
-        ArrayList portsNames = new ArrayList(ports.length);
+        List<String> portsNames = new ArrayList<String>(ports.length);
         for (int i = 0; i < ports.length; i++) {
             System.out.println("port " + i + ": " + ports[i].getSystemPortName());
             portsNames.add(ports[i].getSystemPortName());
@@ -66,6 +69,12 @@ public class Fluidic {
         input.close();
         numOfPort = portsNames.indexOf(userport);
         the_selector = new Selector(ports[numOfPort]);
+
+        System.out.println("Input the path of the intruction file: ");
+        String path = input.nextLine();
+        parser = new Parser(path);
+
+
     }
 
     public void pumpTest() throws InterruptedException {
@@ -92,6 +101,48 @@ public class Fluidic {
 
         the_pump.quit();
         the_selector.quit();
+    }
+
+    /**
+     * Runs the instruction set
+     */
+    public void runEntireInstructionSet() throws InterruptedException{
+        List<Instruction> ins_set = parser.getInstructions();
+
+        Iterator ins_itr = ins_set.iterator();
+
+        while(ins_itr.hasNext()) {
+            runInstruction((Instruction) ins_itr.next());
+        }
+
+    }
+
+    /**
+     * Runs one instruction
+     * @param instr is an Instruction object
+     */
+    public void runInstruction(Instruction instr) throws InterruptedException{
+        String name = instr.getName();
+
+        if (name.equals("Set")) {
+            the_selector.switchValve(instr.getParameters().get(0));
+        } else if (name.equals("Wait")) {
+            Integer time = instr.getParameters().get(0);
+            if (time == -1) {
+
+
+                // TODO: Waits for the user
+
+
+
+            } else {
+                Thread.sleep(time);
+            }
+        } else {
+            List<Integer> params = instr.getParameters();
+
+            
+        }
     }
 
     public void wash() throws InterruptedException {

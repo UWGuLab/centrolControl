@@ -92,3 +92,97 @@
 15.	IM Buffer	21	5	500
 16.	Imaging
 
+=======
+# This is a of instructions for use in sequencing experiments.
+# Lines that start with # are comments and are ignored.
+# Empty lines are also ignored.
+
+# Sections are marked by an '@' symbol, then a tab, then the name of the section
+# Instruction lines start with a number and a period eg. '1.' 
+# There are different types of instruction objects and they each have
+# different syntax that must be followed:
+#	1. Pumping the valve instructions
+#		eg. To pump 250 uL of Cleavage Buffer from valve 15 at high speed, 
+#		the instruction is:
+#			 1.	Cleavage Buffer	15	5	250
+#		where the step number and name of the chemical comes first,
+#		followed by the valve number, speed setting, and amount in uL
+#		All values are separated by tabs.
+#
+#	2. Wait instructions
+#		eg. To wait 200 seconds, the instruction is:
+#			2.	Wait	200000
+#		where 'Wait' and the time in milliseconds is separated by a tab.
+#		eg. To wait for user input, the instructions can be:
+#			2.	Wait	user	
+#			2.	Wait	0
+#
+#	3. Set instructions
+#		eg. To set the valve to valve 16, the instruction is:
+#			3.	Set	16
+#		where 'Set' is followed by the valve number separated by a tab
+#
+#	4. Imaging instructions
+#		eg. To do imaging, the instruction is:
+#			4.	Imaging
+#		where 'Imaging' is separated from the number by a tab.
+
+
+@	Initial Wash/Tube Cleaning
+
+1.	Cleavage Buffer	9	5	5000
+2.	High Salt Wash	11	5	5000
+3.	Tris Wash	13	5	2500
+4.	Incorp Mix	15	5	2500
+5.	Color Dye	17	5	5000
+6.	Dark Dye	19	5	5000
+7.	IM Buffer	21	5	5000
+8.	Set	15
+9.	Wait	user
+
+
+@	Buffer Injection
+
+1.	Incorp Mix	15	5	250
+2.	Color Dye	17	5	250
+3.	Dark Dye	19	5	250
+4.	IM Buffer	21	5	250
+5.	Cleavage Buffer	9	5	250
+6.	High Salt Wash	11	5	1000
+7.	Tris Wash	13	5	250
+
+
+					@	Incorp 0
+
+1.	Tris Wash					13	5	500
+2.	Incorp Mix	15	3	500
+3.	Color Dye	17	5	250
+4.	Color Dye	17	3	250
+5.	Wait			220000
+6.	Dark Dye	19	3	500
+7.	Wait	180000
+8.	IM Buffer	21	5	500
+9.	WAit	user
+10.	IM Buffer	21	5	500
+11.	Imaging
+12.	Wait	user
+
+
+@	Incorp N
+
+1.	Cleavage Buffer	9	5	250
+2.	Cleavage Buffer	9	3	250
+3.	Wait	280000
+4.	Cleavage Buffer	9	3	250
+5.	Wait	200000
+6.	High Salt Wash	11	5	1500
+7.	High Salt Wash	11	3	500	
+8.	Tris Wash	13	5	500
+9.	Incorp Mix	15	3	500
+10.	Color Dye	17	5	250
+11.	Color Dye	17	3	250
+12.	Wait	220000
+13.	Dark Dye	19	3	500
+14.	Wait	180000
+15.	IM Buffer	21	5	500
+16.	Imaging
