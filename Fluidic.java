@@ -11,7 +11,6 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JOptionPane;
-import sun.audio.*;
 
 public class Fluidic {
 
@@ -19,11 +18,15 @@ public class Fluidic {
     private Pump the_pump;
     private Selector the_selector;
     Stopwatch stopwatch = Stopwatch.createUnstarted();
-
+    private boolean _continue;
     /*
      * Constructor with no parameters
      */
+
     public Fluidic() {
+
+        // initialize the flag
+        _continue = true;
 
         // Gets all available ports
         SerialPort[] ports = SerialPort.getCommPorts();
@@ -66,23 +69,29 @@ public class Fluidic {
     }
 
     public void pumpTest() throws InterruptedException {
-        System.out.println("port 9 125uL");
         the_pump.flipToWaster();
         Thread.sleep(1000);
+        System.out.println("initialize");
         the_pump.intialize();
-        Thread.sleep(12000);
 
+
+        System.out.println("port 11 100uL");
         the_selector.switchValve(11);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(1000);
+        runNCycles(100);
 
+        System.out.println("port 13 250uL");
         the_selector.switchValve(13);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
-//        the_selector.getCurrentPosition();
+        runNCycles(250);
 
+        System.out.println("port 20 400uL");
         the_selector.switchValve(20);
         Thread.sleep(1000);
+        runNCycles(400);
+
+        the_pump.quit();
+        the_selector.quit();
     }
 
     public void wash() throws InterruptedException {
@@ -106,34 +115,34 @@ public class Fluidic {
 
         the_selector.switchValve(9);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(cleavBufVOl);
+        runNCycles(cleavBufVOl);
         System.out.println("port 9 cleav buff washed " + cleavBufVOl / the_pump.maxVol + " times using " + cleavBufVOl + " uL.");
 
         the_selector.switchValve(11);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(highSaltVol);
+        runNCycles(highSaltVol);
         System.out.println("port 11 high salt buff washed " + highSaltVol / the_pump.maxVol + " times " + highSaltVol + " uL.");
 
         for (int i = 0; i < 10; i++) {
             the_selector.switchValve(13);
             Thread.sleep(1000);
-            runNCyclesAtHighSpeed(250);
+            runNCycles(250);
 
             the_selector.switchValve(15);
             Thread.sleep(1000);
-            runNCyclesAtHighSpeed(250);
+            runNCycles(250);
 
             the_selector.switchValve(17);
             Thread.sleep(1000);
-            runNCyclesAtHighSpeed(250);
+            runNCycles(250);
 
             the_selector.switchValve(19);
             Thread.sleep(1000);
-            runNCyclesAtHighSpeed(250);
+            runNCycles(250);
 
             the_selector.switchValve(21);
             Thread.sleep(1000);
-            runNCyclesAtHighSpeed(250);
+            runNCycles(250);
 
             counter++;
             System.out.println("port 13, 15, 17, 19, 21 washed " + counter + " times.");
@@ -142,15 +151,15 @@ public class Fluidic {
         for (int j = 0; j < 10; j++) {
             the_selector.switchValve(17);
             Thread.sleep(1000);
-            runNCyclesAtHighSpeed(250);
+            runNCycles(250);
 
             the_selector.switchValve(19);
             Thread.sleep(1000);
-            runNCyclesAtHighSpeed(250);
+            runNCycles(250);
 
             the_selector.switchValve(21);
             Thread.sleep(1000);
-            runNCyclesAtHighSpeed(250);
+            runNCycles(250);
 
             counter++;
             System.out.println("port 17, 19, 21 washed " + counter + " times.");
@@ -162,54 +171,33 @@ public class Fluidic {
 
     }
 
-    private void runNCyclesAtHighSpeed(int volume) throws InterruptedException {
+    private void runNCycles(int volume) throws InterruptedException {
         //TODO: add currentMaxSpeed check
         int[] parameters = calPumpCycAndVol(volume);
         for (int i = 0; i < parameters[0]; i++) {
             the_pump.flipToSolution();
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             the_pump.setPosition(48000);
-            Thread.sleep(6000);
-            the_pump.flipToWaster();
-            Thread.sleep(1000);
-            the_pump.dispose(48000);
-            Thread.sleep(6000);
-        }
-        if (parameters[1] > 0) {
-            the_pump.flipToSolution();
-            Thread.sleep(1000);
-            the_pump.setPosition(parameters[1] * 48000 / 250);
-            Thread.sleep(6000);
-            the_pump.flipToWaster();
-            Thread.sleep(1000);
-            the_pump.dispose(parameters[1] * 48000 / 250);
-            Thread.sleep(6000);
-        }
-    }
+//            Thread.sleep(6000);
 
-    private void runNCyclesAtNormSpeed(int volume) throws InterruptedException {
-        //TODO: add currentMaxSpeed check
-        int[] parameters = calPumpCycAndVol(volume);
-        for (int i = 0; i < parameters[0]; i++) {
-            the_pump.flipToSolution();
-            Thread.sleep(1000);
-            the_pump.setPosition(48000);
-            Thread.sleep(16000);
             the_pump.flipToWaster();
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             the_pump.dispose(48000);
-            Thread.sleep(16000);
+//            Thread.sleep(6000);
+
         }
         if (parameters[1] > 0) {
             the_pump.flipToSolution();
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             the_pump.setPosition(parameters[1] * 48000 / 250);
-            Thread.sleep(16000);
+//            Thread.sleep(6000);
+
             the_pump.flipToWaster();
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             the_pump.dispose(parameters[1] * 48000 / 250);
-            Thread.sleep(16000);
+//            Thread.sleep(6000);
         }
+        the_pump.getReady();
     }
 
     private int[] calPumpCycAndVol(int volume) {
@@ -227,41 +215,42 @@ public class Fluidic {
 
         //get start
         the_pump.flipToWaster();
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
         the_pump.intialize();
-        Thread.sleep(12000);
+//        Thread.sleep(12000);
 
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
         System.out.println("Buffer Injection Starts");
 
         the_selector.switchValve(15);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCycles(250);
 
         the_selector.switchValve(17);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCycles(250);
 
         the_selector.switchValve(19);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCycles(250);
 
         the_selector.switchValve(21);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCycles(250);
 
         the_selector.switchValve(9);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+        runNCycles(250);
 
         the_selector.switchValve(11);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(1000);
+        runNCycles(1000);
 
         the_selector.switchValve(13);
         Thread.sleep(1000);
-        runNCyclesAtHighSpeed(250);
+
+        runNCycles(250);
 
         the_selector.switchValve(20);
         Thread.sleep(1000);
@@ -274,9 +263,9 @@ public class Fluidic {
 
         //get start
         the_pump.flipToWaster();
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
         the_pump.intialize();
-        Thread.sleep(12000);
+//        Thread.sleep(12000);
 
         System.out.println("Incorp 0 Starts");
 
@@ -286,8 +275,8 @@ public class Fluidic {
         Thread.sleep(1000);
         //Speed High
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         System.out.println("Incorp Mix Port 15 NormalSpeed 500uL.");
         // Incorp Mix
@@ -295,8 +284,8 @@ public class Fluidic {
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         System.out.println("Color Dye Port 17 HighSpeed 200 uL and NormalSpeed 200uL.");
         // Color Dye
@@ -304,12 +293,13 @@ public class Fluidic {
         Thread.sleep(1000);
         //speed high
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(200);
+
+//        Thread.sleep(1000);
+        runNCycles(200);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(200);
+//        Thread.sleep(1000);
+        runNCycles(200);
 
         System.out.println("Time to take 220 seconds break.");
         //hold for 220 seconds break
@@ -321,8 +311,9 @@ public class Fluidic {
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(400);
+
+//        Thread.sleep(1000);
+        runNCycles(400);
 
         System.out.println("Time to take 180 seconds break.");
         //hold for 180 seconds break
@@ -334,13 +325,13 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(400);
+
+//        Thread.sleep(1000);
+        runNCycles(400);
 
         the_selector.switchValve(20);
         Thread.sleep(1000);
         showMessage("Please select the FOVs", "FOV Selection");
-
     }
 
     public void cyc0LastStep() throws InterruptedException {
@@ -348,8 +339,8 @@ public class Fluidic {
         the_selector.switchValve(21);
         Thread.sleep(1000);
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         the_selector.switchValve(20);
         Thread.sleep(1000);
@@ -365,29 +356,30 @@ public class Fluidic {
 
         //get start
         the_pump.flipToWaster();
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
         the_pump.intialize();
-        Thread.sleep(12000);
+//        Thread.sleep(12000);
 
         //Cleavage
-        System.out.println("Cleavage Buffer Port 9 HighSpeed 200uL and NormalSpeed 200uL.");
+        System.out.println("Cleavage Buffer Port 9 HighSpeed 200uL and NormalSpeed 150uL.");
         the_selector.switchValve(9);
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(200);
+//        Thread.sleep(1000);
+        runNCycles(150);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(200);
+//        Thread.sleep(1000);
+        runNCycles(200);
 
         System.out.println("It is time to take 280 seconds break.");
         //hold for 280 seconds break
         Thread.sleep(280000);
         System.out.println("Cleavage Buffer Port 21 NormalSpeed 150uL.");
         //normal speed
-        runNCyclesAtNormSpeed(150);
+
+        runNCycles(200);
 
         System.out.println("The second break will take 200 seconds.");
         //hold for 200 seconds break
@@ -399,12 +391,14 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(1200);
+
+//        Thread.sleep(1000);
+        runNCycles(1200);
+
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         System.out.println("Tris Wash Port 13 HighSpeed 500uL.");
         // Tris wash
@@ -412,8 +406,8 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         System.out.println("Incorp Mix Port 15 NormalSpeed 500uL.");
         //Incorp Mix
@@ -421,8 +415,8 @@ public class Fluidic {
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         System.out.println("Color Dye Port 17 HighSpeed 200uL and NormalSpeed 200uL");
         //Color Dye
@@ -430,12 +424,13 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(200);
+
+//        Thread.sleep(1000);
+        runNCycles(200);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(200);
+//        Thread.sleep(1000);
+        runNCycles(200);
 
         System.out.println("Taking 3rd break for 220 seconds.");
         //hold for 220 seconds break
@@ -447,8 +442,9 @@ public class Fluidic {
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(400);
+
+//        Thread.sleep(1000);
+        runNCycles(400);
 
         System.out.println("Taking the final break for 180 seconds.");
         //hold for 180 seconds break
@@ -460,8 +456,8 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         the_selector.switchValve(20);
         Thread.sleep(1000);
@@ -477,9 +473,9 @@ public class Fluidic {
 
         //get start
         the_pump.flipToWaster();
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
         the_pump.intialize();
-        Thread.sleep(12000);
+//        Thread.sleep(12000);
 
         //Cleavage
         System.out.println("Cleavage Buffer Port 9 HighSpeed 200uL and NormalSpeed 200uL.");
@@ -487,19 +483,20 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(200);
+//        Thread.sleep(1000);
+        runNCycles(200);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(200);
+//        Thread.sleep(1000);
+        runNCycles(200);
 
         System.out.println("It is time to take 280 seconds break.");
         //hold for 280 seconds break
         Thread.sleep(280000);
         System.out.println("Cleavage Buffer Port 21 NormalSpeed 150uL.");
         //normal speed
-        runNCyclesAtNormSpeed(150);
+
+        runNCycles(150);
 
         System.out.println("The second break will take 200 seconds.");
         //hold for 200 seconds break
@@ -511,12 +508,14 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(1200);
+
+//        Thread.sleep(1000);
+        runNCycles(1200);
+
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         System.out.println("Tris Wash Port 13 HighSpeed 500uL.");
         // Tris wash
@@ -524,8 +523,8 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         System.out.println("Incorp Mix Port 15 NormalSpeed 500uL.");
         //Incorp Mix
@@ -533,8 +532,8 @@ public class Fluidic {
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         System.out.println("Color Dye Port 17 HighSpeed 200uL and NormalSpeed 200uL");
         //Color Dye
@@ -542,12 +541,13 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(200);
+
+//        Thread.sleep(1000);
+        runNCycles(200);
         //normal speed
         the_pump.setMaxSpeed(3333);
-        Thread.sleep(1000);
-        runNCyclesAtNormSpeed(200);
+//        Thread.sleep(1000);
+        runNCycles(200);
 
         System.out.println("Taking 3rd break for 220 seconds.");
         //hold for 220 seconds break
@@ -559,8 +559,8 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
-        Thread.sleep(1000);
-        runNCyclesAtHighSpeed(500);
+//        Thread.sleep(1000);
+        runNCycles(500);
 
         the_selector.switchValve(20);
         Thread.sleep(1000);
