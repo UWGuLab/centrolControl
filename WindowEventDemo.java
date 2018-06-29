@@ -57,10 +57,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         btnSequencing = new javax.swing.JButton();
         btnContinueCyc0 = new javax.swing.JButton();
         LabelNumOfCyc = new javax.swing.JLabel();
-        jFormattedTextFieldOutput = new javax.swing.JFormattedTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextAreaOutput = new javax.swing.JTextArea();
-        jLabelOutput = new javax.swing.JLabel();
+        jFormattedTextFieldNumOfCycle = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,21 +110,12 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
         LabelNumOfCyc.setText("Number Of Cycles");
 
-        jFormattedTextFieldOutput.setText("1");
-        jFormattedTextFieldOutput.addActionListener(new java.awt.event.ActionListener() {
+        jFormattedTextFieldNumOfCycle.setText("1");
+        jFormattedTextFieldNumOfCycle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextFieldOutputActionPerformed(evt);
+                jFormattedTextFieldNumOfCycleActionPerformed(evt);
             }
         });
-
-        jTextAreaOutput.setColumns(20);
-        jTextAreaOutput.setEditable(false);
-        jTextAreaOutput.setLineWrap(true);
-        jTextAreaOutput.setRows(5);
-        jTextAreaOutput.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextAreaOutput);
-
-        jLabelOutput.setText("Output");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,28 +123,24 @@ public class WindowEventDemo extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnWash)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnInjectBuffer))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCyc0)
                         .addGap(14, 14, 14)
                         .addComponent(btnInvokeMM)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnContinueCyc0))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelOutput)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnSequencing)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSequencing)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextFieldNumOfCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(LabelNumOfCyc)))
-                .addGap(149, 149, 149))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,23 +158,15 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSequencing)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jFormattedTextFieldOutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jFormattedTextFieldNumOfCycle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(LabelNumOfCyc)))
-                .addGap(31, 31, 31)
-                .addComponent(jLabelOutput)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(184, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LabelNumOfCyc, btnSequencing});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public static void display(String inputs) {
-        jTextAreaOutput.append(inputs);
-    }
 
     private void btnWashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWashActionPerformed
         try {
@@ -242,7 +218,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
     private void btnSequencingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSequencingMouseClicked
         try {
-            int numOfCyc = Integer.parseInt(jFormattedTextFieldOutput.getText());
+            int numOfCyc = Integer.parseInt(jFormattedTextFieldNumOfCycle.getText());
 
             Fluidic.showMessage("Please choose the Multi-D configuration file", "File Selection");
             String acquisitionConfigFile = fileChooser();
@@ -360,9 +336,9 @@ public class WindowEventDemo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnContinueCyc0MouseClicked
 
-    private void jFormattedTextFieldOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldOutputActionPerformed
+    private void jFormattedTextFieldNumOfCycleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldNumOfCycleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextFieldOutputActionPerformed
+    }//GEN-LAST:event_jFormattedTextFieldNumOfCycleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -383,9 +359,6 @@ public class WindowEventDemo extends javax.swing.JFrame {
     private javax.swing.JButton btnInvokeMM;
     private javax.swing.JButton btnSequencing;
     private javax.swing.JButton btnWash;
-    private javax.swing.JFormattedTextField jFormattedTextFieldOutput;
-    private javax.swing.JLabel jLabelOutput;
-    private javax.swing.JScrollPane jScrollPane1;
-    public static javax.swing.JTextArea jTextAreaOutput;
+    private javax.swing.JFormattedTextField jFormattedTextFieldNumOfCycle;
     // End of variables declaration//GEN-END:variables
 }

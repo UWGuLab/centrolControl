@@ -1,5 +1,22 @@
 package centrolControl;
 
+
+import ij.WindowManager;
+import ij.gui.ImageWindow;
+import java.util.Scanner;
+import org.micromanager.MMStudio;
+import org.micromanager.SnapLiveManager;
+import org.micromanager.acquisition.AcquisitionEngine;
+
+import mmcorej.CMMCore;
+import mmcorej.Configuration;
+import mmcorej.PropertySetting;
+import mmcorej.StrVector;
+import org.micromanager.api.MultiStagePosition;
+import org.micromanager.api.PositionList;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import org.micromanager.imagedisplay.VirtualAcquisitionDisplay;
+
 public class main {
 
     public static void main(String[] args) throws Exception {
