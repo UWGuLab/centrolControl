@@ -249,6 +249,7 @@ public class Fluidic {
 
         the_selector.switchValve(13);
         Thread.sleep(1000);
+
         runNCycles(250);
 
         the_selector.switchValve(20);
@@ -292,6 +293,7 @@ public class Fluidic {
         Thread.sleep(1000);
         //speed high
         the_pump.setMaxSpeed(10000);
+
 //        Thread.sleep(1000);
         runNCycles(200);
         //normal speed
@@ -309,6 +311,7 @@ public class Fluidic {
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
+
 //        Thread.sleep(1000);
         runNCycles(400);
 
@@ -322,6 +325,7 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
+
 //        Thread.sleep(1000);
         runNCycles(400);
 
@@ -372,8 +376,9 @@ public class Fluidic {
         System.out.println("It is time to take 280 seconds break.");
         //hold for 280 seconds break
         Thread.sleep(280000);
-        System.out.println("Cleavage Buffer Port 21 NormalSpeed 200uL.");
+        System.out.println("Cleavage Buffer Port 21 NormalSpeed 150uL.");
         //normal speed
+
         runNCycles(200);
 
         System.out.println("The second break will take 200 seconds.");
@@ -386,8 +391,10 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
+
 //        Thread.sleep(1000);
         runNCycles(1200);
+
         //normal speed
         the_pump.setMaxSpeed(3333);
 //        Thread.sleep(1000);
@@ -417,6 +424,7 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
+
 //        Thread.sleep(1000);
         runNCycles(200);
         //normal speed
@@ -434,6 +442,7 @@ public class Fluidic {
         Thread.sleep(1000);
         //normal speed
         the_pump.setMaxSpeed(3333);
+
 //        Thread.sleep(1000);
         runNCycles(400);
 
@@ -486,6 +495,7 @@ public class Fluidic {
         Thread.sleep(280000);
         System.out.println("Cleavage Buffer Port 21 NormalSpeed 150uL.");
         //normal speed
+
         runNCycles(150);
 
         System.out.println("The second break will take 200 seconds.");
@@ -498,8 +508,10 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
+
 //        Thread.sleep(1000);
         runNCycles(1200);
+
         //normal speed
         the_pump.setMaxSpeed(3333);
 //        Thread.sleep(1000);
@@ -529,6 +541,7 @@ public class Fluidic {
         Thread.sleep(1000);
         //high speed
         the_pump.setMaxSpeed(10000);
+
 //        Thread.sleep(1000);
         runNCycles(200);
         //normal speed
