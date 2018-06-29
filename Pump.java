@@ -183,18 +183,6 @@ public class Pump implements SerialPortPacketListener {
     /* query the pump status with a carriage return (hex 0D, decimal 13) character
      * to determine if the pump is busy or the move has finished.
      */
-//    public void getStatus() {
-//        try {
-////            System.out.println("get Status");
-//            Thread.sleep(500);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(Pump.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        String command = "/1\r";
-//        byte[] buf = command.getBytes();
-//        pumpPort.writeBytes(buf, buf.length);
-//        validateStatus();
-//    }
 
     private boolean getStatus() throws InterruptedException {
         _validator = null;
@@ -205,10 +193,10 @@ public class Pump implements SerialPortPacketListener {
         if (_validator != null) {
             Matcher matcher = pattern.matcher(_validator);
             if (matcher.find()) {
-                System.out.println("Ready");
+//                System.out.println("Ready");
                 return true;
             } else {
-                System.out.println("device busy");
+//                System.out.println("device busy");
             }
         }
         return false;
@@ -249,20 +237,4 @@ public class Pump implements SerialPortPacketListener {
 //        System.out.println(_validator);
     }
 
-//    private void validateStatus() {
-//        if (_validator != null) {
-//            Matcher matcher = pattern.matcher(_validator);
-//            if (matcher.find()) {
-//                System.out.println("Ready");
-//            } else {
-//                System.out.println("device busy");
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(Pump.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//                getStatus();
-//            }
-//        }
-//    }
 }
