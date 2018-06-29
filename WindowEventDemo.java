@@ -17,8 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
-import javax.swing.JTextArea;
-import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
