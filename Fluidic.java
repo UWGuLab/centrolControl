@@ -119,6 +119,7 @@ public class Fluidic {
 
     /**
      * Runs one instruction
+     * 
      * @param instr is an Instruction object
      */
     public void runInstruction(Instruction instr) throws InterruptedException{

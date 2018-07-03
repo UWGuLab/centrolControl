@@ -31,12 +31,14 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
     //Fluidic Control
     protected Fluidic experiment;
+    protected Parser instr_set;
     protected MMStudio gui_;
     private Preferences pref = Preferences.userRoot().node(getClass().getName());
 
     /** Creates new form WindowEventDemo */
     public WindowEventDemo() {
         experiment = new Fluidic();
+        instr_set = new Parser();
         gui_ = new MMStudio(false);
         initComponents();
     }

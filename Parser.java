@@ -5,7 +5,8 @@ import java.io.*;
 
 /**
  * This class is used to parse instructions for running the SMI-seq experiments.
- * The instructions must be a text file in the correct format.
+ * The instructions must be a text file in the correct format. This is a mutable
+ * object.
  *
  * @author Gu-Lab Kitty Li
  */
@@ -26,6 +27,17 @@ public class Parser {
 
     // The list of sections and its corresponding number of steps
     private List<Map<String, Integer>> sections;
+    
+    /**
+     * Instantiates the Parser object without knowing the instruction set
+     */
+    public Parser() {
+    	
+    	// Instantiates all fields
+    	this.path = NULL;
+    	this.instr = new ArrayList<Instruction>();
+        this.sections = new ArrayList<Map<String, Integer>>();
+    }
 
     /**
      * Instantiates the Parser object by parsing all instructions in the given
@@ -34,16 +46,27 @@ public class Parser {
      * @param path is a String representing the path of the Instruction file
      */
     public Parser(String path) {
-        // Instantiates all fields
-        this.path = path;
+        parseFile(path)
+    }
+    
+    /**
+     * Parses the file with the given path
+     * 
+     * @param path is a String representing the path of the Instruction file
+     */
+    public void parseFile(String Path) {
+    	
+    	// Instantiates all fields
+    	this.path = path;
         this.instr = new ArrayList<Instruction>();
         this.sections = new ArrayList<Map<String, Integer>>();
-
-        // Creates a new File object and Scanner
+    	
+    	// Creates a new File object and Scanner
         File f = new File(this.path);
         try {
             Scanner input = new Scanner(f);
             parseFile(input);
+            input.close();
         } catch (FileNotFoundException e){
             System.out.println("File not found! Please input another file path");
             System.out.println(e.getMessage());
@@ -172,6 +195,16 @@ public class Parser {
         }
 
         return copy;
+    }
+    
+    /**
+     * Checks if this Parser object already has Instructions or not
+     */
+    public boolean isEmpty() {
+    	if (this.path == NULL && this.instr.isEmpty() && this.sections.isEmpty()) {
+    		return true
+    	}
+    	return false;
     }
 
     /**
