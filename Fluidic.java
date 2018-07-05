@@ -20,7 +20,6 @@ public class Fluidic {
 
     private boolean _continue;
 
-    private Parser parser;
 
     /*
      * Constructor with no parameters
@@ -70,10 +69,6 @@ public class Fluidic {
         numOfPort = portsNames.indexOf(userport);
         the_selector = new Selector(ports[numOfPort]);
 
-        System.out.println("Input the path of the intruction file: ");
-        String path = input.nextLine();
-        parser = new Parser(path);
-
 
     }
 
@@ -81,7 +76,7 @@ public class Fluidic {
         the_pump.flipToWaster();
         Thread.sleep(1000);
         System.out.println("initialize");
-        the_pump.intialize();
+        the_pump.initialize();
 
 
         System.out.println("port 11 100uL");
@@ -104,46 +99,39 @@ public class Fluidic {
     }
 
     /**
-     * Runs the instruction set
-     */
-    public void runEntireInstructionSet() throws InterruptedException{
-        List<Instruction> ins_set = parser.getInstructions();
-
-        Iterator ins_itr = ins_set.iterator();
-
-        while(ins_itr.hasNext()) {
-            runInstruction((Instruction) ins_itr.next());
-        }
-
-    }
-
-    /**
      * Runs one instruction
      * 
      * @param instr is an Instruction object
      */
     public void runInstruction(Instruction instr) throws InterruptedException{
+    	
         String name = instr.getName();
 
-        if (name.equals("Set")) {
+        if (name.equals("SET")) {
+        	
             the_selector.switchValve(instr.getParameters().get(0));
-        } else if (name.equals("Wait")) {
+            Thread.sleep(1000);
+            
+        } else if (name.equals("WAIT")) {
             Integer time = instr.getParameters().get(0);
-            if (time == -1) {
-
-
-                // TODO: Waits for the user
-
-
-
-            } else {
-                Thread.sleep(time);
-            }
+            Thread.sleep(time);
         } else {
             List<Integer> params = instr.getParameters();
-
+            Integer valve = params.get(0);
+            Integer speed = params.get(1);
+            Integer amount = params.get(2);
+            
+            the_pump.setMaxSpeed(speed * 2000)
+            the_selector.switchValve(valve);
+            Thread.sleep(1000);
+            runNCycles(amount);
             
         }
+    }
+    
+    public void initiate() {
+    	the_pump.flipToWaster();
+    	the pump.initialize();
     }
 
     public void wash() throws InterruptedException {
@@ -156,7 +144,7 @@ public class Fluidic {
         //get start
         the_pump.flipToWaster();
         Thread.sleep(1000);
-        the_pump.intialize();
+        the_pump.initialize();
         Thread.sleep(12000);
 
         //wash with buffer
@@ -268,7 +256,7 @@ public class Fluidic {
         //get start
         the_pump.flipToWaster();
 //        Thread.sleep(1000);
-        the_pump.intialize();
+        the_pump.initialize();
 //        Thread.sleep(12000);
 
         the_pump.setMaxSpeed(10000);
@@ -316,7 +304,7 @@ public class Fluidic {
         //get start
         the_pump.flipToWaster();
 //        Thread.sleep(1000);
-        the_pump.intialize();
+        the_pump.initialize();
 //        Thread.sleep(12000);
 
         System.out.println("Incorp 0 Starts");
@@ -409,7 +397,7 @@ public class Fluidic {
         //get start
         the_pump.flipToWaster();
 //        Thread.sleep(1000);
-        the_pump.intialize();
+        the_pump.initialize();
 //        Thread.sleep(12000);
 
         //Cleavage
@@ -526,7 +514,7 @@ public class Fluidic {
         //get start
         the_pump.flipToWaster();
 //        Thread.sleep(1000);
-        the_pump.intialize();
+        the_pump.initialize();
 //        Thread.sleep(12000);
 
         //Cleavage

@@ -21,6 +21,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
 import org.micromanager.utils.MMScriptException;
+
+import com.sun.org.apache.bcel.internal.generic.Instruction;
+
 import org.micromanager.api.PositionList;
 
 /**
@@ -41,6 +44,12 @@ public class WindowEventDemo extends javax.swing.JFrame {
         instr_set = new Parser();
         gui_ = new MMStudio(false);
         initComponents();
+        
+        Fluidic.showMessage("Please choose the intruction .txt file", "File Selection");
+        String instructionListFile = fileChooser();
+        instructionListFile = instructionListFile.replace("\\", "\\\\");
+        instr_set.parseFile(instructionListFile);
+        
     }
 
     /** This method is called from within the constructor to
@@ -80,21 +89,21 @@ public class WindowEventDemo extends javax.swing.JFrame {
             }
         });
 
-        btnCyc0.setText("cycle 0");
+        btnCyc0.setText("Cycle 0");
         btnCyc0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCyc0ActionPerformed(evt);
             }
         });
 
-        btnInvokeMM.setText("set FOVs");
+        btnInvokeMM.setText("Set FOVs");
         btnInvokeMM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInvokeMMActionPerformed(evt);
             }
         });
 
-        btnSequencing.setText("seqencing");
+        btnSequencing.setText("Run Sequencing");
         btnSequencing.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSequencingMouseClicked(evt);
@@ -197,7 +206,22 @@ public class WindowEventDemo extends javax.swing.JFrame {
     private void btnWashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWashActionPerformed
         try {
             // TODO add your handling code here:
-            experiment.wash();
+            // experiment.wash();
+        	
+        	List<Instruction> washInstr = instr_set.getSectionInstructions("WASH");
+        	for (Instruction ins : washInstr) {
+        		if (ins.getName().equals("IMAGING")) {
+        			gui_.runAcquisition("Incorp", saveDirectory);
+        		} else if (ins.isWaitUserInstruction()) {
+        			//TODO: Fill this in with what to do
+        		} else {
+        			experiment.initiate();
+        			experiment.runInstruction(ins);
+        		}
+        		
+        	}
+        	
+        	
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -206,7 +230,24 @@ public class WindowEventDemo extends javax.swing.JFrame {
     private void btnInjectBufferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInjectBufferActionPerformed
         try {
             // TODO add your handling code here:
-            experiment.injectBuffer();
+            // experiment.injectBuffer();
+        	
+        	List<Instruction> injectBufferInstr = instr_set.getSectionInstructions("BUFFER INJECTION");
+        	for (Instruction ins : injectBufferInstr) {
+        		if (ins.getName().equals("IMAGING")) {
+        			gui_.runAcquisition("Incorp", saveDirectory);
+        		} else if (ins.isWaitUserInstruction()) {
+        			//TODO: Fill this in with what to do
+        		} else {
+        			experiment.initiate();
+        			experiment.runInstruction(ins);
+        		}
+        		
+        	}
+        	
+        	
+        	
+        	
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
@@ -221,7 +262,23 @@ public class WindowEventDemo extends javax.swing.JFrame {
     private void btnCyc0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCyc0ActionPerformed
         try {
             // TODO add your handling code here:
-            experiment.startIncorp0();
+            // experiment.startIncorp0();
+        	
+        	List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0");
+        	for (Instruction ins : washInstr) {
+        		if (ins.getName().equals("IMAGING")) {
+        			gui_.runAcquisition("Incorp", saveDirectory);
+        		} else if (ins.isWaitUserInstruction()) {
+        			//TODO: Fill this in with what to do
+        		} else {
+        			experiment.initiate();
+        			experiment.runInstruction(ins);
+        		}
+        		
+        	}
+        	
+        	
+        	
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
@@ -251,7 +308,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             acquisitionConfigFile = acquisitionConfigFile.replace("\\", "\\\\");
             gui_.loadAcquisition(acquisitionConfigFile);
 //            gui_.loadAcquisition("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\AcqSettings20180427.xml");
-
+            
 
             PositionList positionList = gui_.getPositionList();
             Fluidic.showMessage("Please choose the position list file", "File Selection");
@@ -268,15 +325,36 @@ public class WindowEventDemo extends javax.swing.JFrame {
             if (numOfCyc > 1) {
                 for (int i = 0; i < numOfCyc - 1; i++) {
 
-                    experiment.runSequencing(i + 1);
-                    gui_.runAcquisition("Incorp", saveDirectory);
+                	List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
+                	for (Instruction ins : washInstr) {
+                		if (ins.getName().equals("IMAGING")) {
+                			gui_.runAcquisition("Incorp", saveDirectory);
+                		} else if (ins.isWaitUserInstruction()) {
+                			//TODO: Fill this in with what to do
+                		} else {
+                			experiment.initiate();
+                			experiment.runInstruction(ins);
+                		}
+                		
+                	}
                 }
                 experiment.lastSequencingCycle();
                 gui_.runAcquisition("Incorp", saveDirectory);
 
             } else if (numOfCyc == 1) {
-                experiment.runSequencing(1);
-                gui_.runAcquisition("Incorp", saveDirectory);
+            	
+            	List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
+            	for (Instruction ins : washInstr) {
+            		if (ins.getName().equals("IMAGING")) {
+            			gui_.runAcquisition("Incorp", saveDirectory);
+            		} else if (ins.isWaitUserInstruction()) {
+            			//TODO: Fill this in with what to do
+            		} else {
+            			experiment.initiate();
+            			experiment.runInstruction(ins);
+            		}
+            		
+            	}
             } else {
                 throw new IllegalArgumentException("cannot run negative number of incorporation cycles.");
             }
@@ -301,7 +379,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         String path = pref.get("DEFAULT_PATH", "");
 
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("position and xml file", "xml", "pos");
+        FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("position, xml and txt files", "xml", "pos", "txt");
         chooser.addChoosableFileFilter(fileFilter);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 

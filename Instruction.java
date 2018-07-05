@@ -33,6 +33,8 @@ public class Instruction {
     private String name;
     // The parameters of the instruction
     private List<Integer> parameters;
+    // 1 if this is a wait user instruction
+    private boolean isWaitUser;
 
     /**
      * Instantiates the Instruction
@@ -41,15 +43,21 @@ public class Instruction {
      * @param parameters is a List of Integers of the parameters or an empty List
      */
     public Instruction(String name, List<Integer> parameters) {
+    	
         this.name = name;
+        this.isWaitUser = false;
         
         List<Integer> copy = new ArrayList<Integer>();
         for (Integer i : parameters) {
         	copy.add(i);
+        	if (this.name.equals("WAIT") && parameters.size() == 1 && i.equals(new Integer(-1))) {
+        		this.isWaitUser == true;
+        	}
         }
         
         this.parameters = copy;
     }
+ 
 
     /**
      * Gets the parameters of the instruction
@@ -93,6 +101,15 @@ public class Instruction {
         } else {
             throw new IllegalArgumentException("the two object we are comparing to is not same data type.");
         }
+    }
+    
+    /**
+     * Checks if this is a wait user instruction
+     * 
+     * @return true if this is a wait user instruction
+     */
+    public boolean isWaitUserInstruction() {
+    	return this.isWaitUser;
     }
 
     /**

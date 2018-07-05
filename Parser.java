@@ -1,5 +1,8 @@
 package centrolControl;
 import java.util.*;
+
+import com.sun.org.apache.bcel.internal.generic.Instruction;
+
 import java.io.*;
 
 
@@ -25,7 +28,7 @@ public class Parser {
     // The list of all instructions
     private List<Instruction> instr;
 
-    // The list of sections and its corresponding number of steps
+    // The list of sections and its corresponding starting step number (0 based)
     private List<Map<String, Integer>> sections;
     
     /**
@@ -103,7 +106,7 @@ public class Parser {
                 // and put the pair into the list of sections
                 Map<String, Integer> sec = new HashMap<String, Integer>();
                 String[] head = line.split("\t");
-                sec.put(head[1].trim(), new Integer(counter));
+                sec.put(head[1].trim().toUpperCase(), new Integer(counter));
                 sections.add(sec);
 
             } else {
@@ -121,29 +124,37 @@ public class Parser {
                 	// Token
                     String p = instructn[i].trim();
                     
-                    if (p.isEmpty() || p.endsWith(".")) { // Ignores the number and empty tokens
+                    if (p.isEmpty() || p.endsWith(".")) { // Ignores the step number and empty tokens
                         continue;
                     } else if (p.toUpperCase().equals("WAIT")) {
-                        name += "Wait";
+                        name = "WAIT";
                     } else if (p.toUpperCase().equals("SET")) {
-                        name += "Set";
+                        name = "SET";
                     } else if (p.toUpperCase().equals("IMAGING")) {
-                        name += "Imaging";
+                        name = "IMAGING";
                     } else {
                         try {
                             Integer n = new Integer(p);
                             pars.add(n);
+                            if (pars.size() == 2 && (n > 5 || n < 0)) {
+                            	throw new IllegalArgumentException("The speed cannot be greater than 5 or less than 0.")
+                            }
                         } catch (NumberFormatException e) {
                             if (name.isEmpty()) {
                                 name = p;
                             } else if (p.toUpperCase().equals("USER")){
-                                pars.add(-1);
+                                pars.add(new Integer(-1));
+                                break;
                             } else {
-                                System.out.println("One of the parameters is not a number!");
+                                System.out.println("One of the parameters is not an integer!");
                                 System.out.println(e.getMessage());
                                 e.printStackTrace();
                             }
                         }
+                    }
+                    
+                    if (pars.size() == 3 || (pars.size() == 1 && (name.equals("SET") || name.equals("WAIT")))) {
+                    	break;
                     }
                 }
 
@@ -187,7 +198,7 @@ public class Parser {
      * 
      * @return a List of Instructions (immutable)
      */
-    public List<Instruction> getInstructions() {
+    public List<Instruction> getAllInstructions() {
         List<Instruction> copy = new ArrayList<Instruction>();
 
         for (Instruction e : instr) {
@@ -196,6 +207,44 @@ public class Parser {
 
         return copy;
     }
+    
+    /**
+     * Gets the instructions for one section specified by name
+     * 
+     * @param section name is a String representing the section
+     * @return a List of Instructions for the specified section or NULL if there is no such section
+     */
+    public List<Instruction> getSectionInstructions(String sectionName) {
+
+    	sectionName = sectionName.toUpperCase();
+    	
+    	// Finds the section number
+    	int ind = 0;
+    	Iterator itr = sections.iterator();
+    	while (itr.hasNext()) {
+    		
+    		// Gets the next section
+    		sectionMap = itr.next();
+    		start = sectionMap.get(sectionName);
+    		
+    		if (start == NULL) {
+    			continue;
+    		} else {
+    			if (itr.hasNext()) {
+    				sectionMapNext = itr.next();
+    				end = sectionMapNext.values().remove();
+    				return instr.subList(start, end)
+    			} else {
+    				return instr.subList(start, instr.size());
+    			}
+    		}
+    		
+    		ind++;
+    	}
+    	return NULL;
+    	
+    }
+ 
     
     /**
      * Checks if this Parser object already has Instructions or not

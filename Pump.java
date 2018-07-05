@@ -43,7 +43,7 @@ public class Pump implements SerialPortPacketListener {
     /*
      * Initialize the pump
      */
-    public void intialize(){
+    public void initialize(){
         getReady();
         String command = "/1W4R\r"; //TODO: actually 1 is the device ID, might need to make it an available
         byte[] buf = command.getBytes();
