@@ -11,6 +11,7 @@
 package centrolControl;
 
 import java.io.File;
+import java.util.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -147,7 +148,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(btnWash)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -209,13 +210,13 @@ public class WindowEventDemo extends javax.swing.JFrame {
             // experiment.wash();
         	
         	List<Instruction> washInstr = instr_set.getSectionInstructions("WASH");
+                experiment.initiate();
         	for (Instruction ins : washInstr) {
         		if (ins.getName().equals("IMAGING")) {
         			gui_.runAcquisition("Incorp", saveDirectory);
         		} else if (ins.isWaitUserInstruction()) {
         			//TODO: Fill this in with what to do
         		} else {
-        			experiment.initiate();
         			experiment.runInstruction(ins);
         		}
         		
@@ -233,13 +234,13 @@ public class WindowEventDemo extends javax.swing.JFrame {
             // experiment.injectBuffer();
         	
         	List<Instruction> injectBufferInstr = instr_set.getSectionInstructions("BUFFER INJECTION");
+                experiment.initiate();
         	for (Instruction ins : injectBufferInstr) {
         		if (ins.getName().equals("IMAGING")) {
         			gui_.runAcquisition("Incorp", saveDirectory);
         		} else if (ins.isWaitUserInstruction()) {
         			//TODO: Fill this in with what to do
         		} else {
-        			experiment.initiate();
         			experiment.runInstruction(ins);
         		}
         		
@@ -265,13 +266,13 @@ public class WindowEventDemo extends javax.swing.JFrame {
             // experiment.startIncorp0();
         	
         	List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0");
-        	for (Instruction ins : washInstr) {
+                experiment.initiate();
+        	for (Instruction ins : incorp0Instr) {
         		if (ins.getName().equals("IMAGING")) {
         			gui_.runAcquisition("Incorp", saveDirectory);
         		} else if (ins.isWaitUserInstruction()) {
         			//TODO: Fill this in with what to do
         		} else {
-        			experiment.initiate();
         			experiment.runInstruction(ins);
         		}
         		
@@ -326,13 +327,13 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 for (int i = 0; i < numOfCyc - 1; i++) {
 
                 	List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
-                	for (Instruction ins : washInstr) {
+                        experiment.initiate();
+                	for (Instruction ins : incorpNInstr) {
                 		if (ins.getName().equals("IMAGING")) {
                 			gui_.runAcquisition("Incorp", saveDirectory);
                 		} else if (ins.isWaitUserInstruction()) {
                 			//TODO: Fill this in with what to do
                 		} else {
-                			experiment.initiate();
                 			experiment.runInstruction(ins);
                 		}
                 		
@@ -344,19 +345,19 @@ public class WindowEventDemo extends javax.swing.JFrame {
             } else if (numOfCyc == 1) {
             	
             	List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
-            	for (Instruction ins : washInstr) {
+                experiment.initiate();
+            	for (Instruction ins : incorpNInstr) {
             		if (ins.getName().equals("IMAGING")) {
             			gui_.runAcquisition("Incorp", saveDirectory);
             		} else if (ins.isWaitUserInstruction()) {
             			//TODO: Fill this in with what to do
             		} else {
-            			experiment.initiate();
             			experiment.runInstruction(ins);
             		}
             		
             	}
             } else {
-                throw new IllegalArgumentException("cannot run negative number of incorporation cycles.");
+                throw new IllegalArgumentException("Cannot run negative number of incorporation cycles.");
             }
             gui_.closeSequence(true);
             gui_.closeAllAcquisitions();

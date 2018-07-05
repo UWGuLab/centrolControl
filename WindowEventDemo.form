@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.1" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
@@ -25,7 +25,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" pref="241" max="32767" attributes="2"/>
+                  <Component id="jScrollPane1" alignment="0" pref="259" max="32767" attributes="2"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnWash" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -105,7 +105,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCyc0">
       <Properties>
-        <Property name="text" type="java.lang.String" value="cycle 0"/>
+        <Property name="text" type="java.lang.String" value="Cycle 0"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCyc0ActionPerformed"/>
@@ -113,7 +113,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnInvokeMM">
       <Properties>
-        <Property name="text" type="java.lang.String" value="set FOVs"/>
+        <Property name="text" type="java.lang.String" value="Set FOVs"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInvokeMMActionPerformed"/>
@@ -121,7 +121,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnSequencing">
       <Properties>
-        <Property name="text" type="java.lang.String" value="seqencing"/>
+        <Property name="text" type="java.lang.String" value="Run Sequencing"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSequencingMouseClicked"/>
