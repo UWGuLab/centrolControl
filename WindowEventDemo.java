@@ -348,7 +348,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             saveDirectory = saveDirectory.replace("\\", "\\\\");
 
             if (numOfCyc > 1) {
-                for (int i = 0; i < numOfCyc - 1; i++) {
+                for (int i = 0; i < numOfCyc; i++) {
 
                     List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
                     experiment.initiate();
@@ -364,8 +364,6 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
                     }
                 }
-                experiment.lastSequencingCycle();
-                gui_.runAcquisition("Incorp", saveDirectory);
 
             } else if (numOfCyc == 1) {
 
