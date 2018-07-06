@@ -10,7 +10,7 @@ public class Selector {
     // currently, valve position 20 is not connected to any chemical, but we swtich
     // to this position at the end of each procedure to prevent the chemical from
     // leaking because of gravity.
-    private int[] validPositions = {9, 11, 13, 15, 17, 19, 20, 21}; // records currently being used positions
+    private int[] validPositions = {9, 11, 13, 15, 17, 19, 20, 21, 23}; // records currently being used positions
     // records the baud rates that can be used
     private int[] validBaudRate = {1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400};
     /*
@@ -105,6 +105,8 @@ public class Selector {
                 case 21:
                     command = "*GO21\r";
                     break;
+                case 23:
+                    command = "*GO23\r";
                 default:
                     command = "Invalid valve selection";
                     throw new IllegalArgumentException(command);

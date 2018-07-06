@@ -43,12 +43,12 @@ public class WindowEventDemo extends javax.swing.JFrame {
         instr_set = new Parser();
         gui_ = new MMStudio(false);
         initComponents();
-        
+
         Fluidic.showMessage("Please choose the intruction .txt file", "File Selection");
         String instructionListFile = fileChooser();
         instructionListFile = instructionListFile.replace("\\", "\\\\");
         instr_set.parseFile(instructionListFile);
-        
+
     }
 
     /** This method is called from within the constructor to
@@ -211,23 +211,24 @@ public class WindowEventDemo extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             // experiment.wash();
-        	
-        	List<Instruction> washInstr = instr_set.getSectionInstructions("WASH");
-                experiment.initiate();
-        	for (Instruction ins : washInstr) {
-        		if (ins.getName().equals("IMAGING")) {
-                                continue;
-        		} else if (ins.isWaitUserInstruction()) {
-        			experiment.showMessage("Wash is done.", "Wash");
-        		} else {
-        			experiment.runInstruction(ins);
-                                jTextAreaOutput.append(ins.toString());
 
-        		}
-        		
-        	}
-        	
-        	
+            List<Instruction> washInstr = instr_set.getSectionInstructions("WASH");
+            experiment.initiate();
+            for (Instruction ins : washInstr) {
+                if (ins.getName().equals("IMAGING")) {
+                    continue;
+                } else if (ins.isWaitUserInstruction()) {
+                    experiment.showMessage("Wash is done.", "Wash");
+                } else {
+                    experiment.runInstruction(ins);
+                    jTextAreaOutput.append(ins.toString());
+                    jTextAreaOutput.append("\n");
+
+                }
+
+            }
+
+
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -237,28 +238,30 @@ public class WindowEventDemo extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             // experiment.injectBuffer();
-        	
-        	List<Instruction> injectBufferInstr = instr_set.getSectionInstructions("BUFFER INJECTION");
-                experiment.initiate();
-        	for (Instruction ins : injectBufferInstr) {
-        		if (ins.getName().equals("IMAGING")) {
-        			continue;
-        		} else if (ins.isWaitUserInstruction()) {
-        			//TODO: Fill this in with what to do
-        		} else {
-        			experiment.runInstruction(ins);
-        		}
-        		
-        	}
-        	
-        	
-        	
-        	
+
+            List<Instruction> injectBufferInstr = instr_set.getSectionInstructions("BUFFER INJECTION");
+            experiment.initiate();
+            for (Instruction ins : injectBufferInstr) {
+                if (ins.getName().equals("IMAGING")) {
+                    continue;
+                } else if (ins.isWaitUserInstruction()) {
+                    //TODO: Fill this in with what to do
+                } else {
+                    experiment.runInstruction(ins);
+                    jTextAreaOutput.append(ins.toString());
+                    jTextAreaOutput.append("\n");
+                }
+
+            }
+
+
+
+
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
-        //} catch (FileNotFoundException ex) {
-        //    Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
-        //} catch (IOException ex) {
+            //} catch (FileNotFoundException ex) {
+            //    Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
+            //} catch (IOException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             System.out.println("There was an error.");
@@ -268,28 +271,30 @@ public class WindowEventDemo extends javax.swing.JFrame {
     private void btnCyc0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCyc0ActionPerformed
         try {
             // TODO add your handling code here:
-             //experiment.startIncorp0();
-        	
-        	List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0 START");
-                experiment.initiate();
-        	for (Instruction ins : incorp0Instr) {
-        		if (ins.getName().equals("IMAGING")) {
-        			experiment.showMessage("Please run MultiD acquisition manually", "Message");
-        		} else if (ins.isWaitUserInstruction()) {
-        			break;
-        		} else {
-        			experiment.runInstruction(ins);
-        		}
-        		
-        	}
-        	
-        	
-        	
+            //experiment.startIncorp0();
+
+            List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0 START");
+            experiment.initiate();
+            for (Instruction ins : incorp0Instr) {
+                if (ins.getName().equals("IMAGING")) {
+                    experiment.showMessage("Please run MultiD acquisition manually", "Message");
+                } else if (ins.isWaitUserInstruction()) {
+                    break;
+                } else {
+                    experiment.runInstruction(ins);
+                    jTextAreaOutput.append(ins.toString());
+                    jTextAreaOutput.append("\n");
+                }
+
+            }
+
+
+
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
-        //} catch (FileNotFoundException ex) {
-         //   Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
-        //} catch (IOException ex) {
+            //} catch (FileNotFoundException ex) {
+            //   Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
+            //} catch (IOException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             System.out.println("There was an error.");
@@ -314,7 +319,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             acquisitionConfigFile = acquisitionConfigFile.replace("\\", "\\\\");
             gui_.loadAcquisition(acquisitionConfigFile);
 //            gui_.loadAcquisition("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\AcqSettings20180427.xml");
-            
+
 
             PositionList positionList = gui_.getPositionList();
             Fluidic.showMessage("Please choose the position list file", "File Selection");
@@ -331,36 +336,40 @@ public class WindowEventDemo extends javax.swing.JFrame {
             if (numOfCyc > 1) {
                 for (int i = 0; i < numOfCyc - 1; i++) {
 
-                	List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
-                        experiment.initiate();
-                	for (Instruction ins : incorpNInstr) {
-                		if (ins.getName().equals("IMAGING")) {
-                			gui_.runAcquisition("Incorp", saveDirectory);
-                		} else if (ins.isWaitUserInstruction()) {
-                			//TODO: Fill this in with what to do
-                		} else {
-                			experiment.runInstruction(ins);
-                		}
-                		
-                	}
+                    List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
+                    experiment.initiate();
+                    for (Instruction ins : incorpNInstr) {
+                        if (ins.getName().equals("IMAGING")) {
+                            gui_.runAcquisition("Incorp", saveDirectory);
+                        } else if (ins.isWaitUserInstruction()) {
+                            //TODO: Fill this in with what to do
+                        } else {
+                            experiment.runInstruction(ins);
+                            jTextAreaOutput.append(ins.toString());
+                            jTextAreaOutput.append("\n");
+                        }
+
+                    }
                 }
                 experiment.lastSequencingCycle();
                 gui_.runAcquisition("Incorp", saveDirectory);
 
             } else if (numOfCyc == 1) {
-            	
-            	List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
+
+                List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
                 experiment.initiate();
-            	for (Instruction ins : incorpNInstr) {
-            		if (ins.getName().equals("IMAGING")) {
-            			gui_.runAcquisition("Incorp", saveDirectory);
-            		} else if (ins.isWaitUserInstruction()) {
-            			//TODO: Fill this in with what to do
-            		} else {
-            			experiment.runInstruction(ins);
-            		}
-            		
-            	}
+                for (Instruction ins : incorpNInstr) {
+                    if (ins.getName().equals("IMAGING")) {
+                        gui_.runAcquisition("Incorp", saveDirectory);
+                    } else if (ins.isWaitUserInstruction()) {
+                        //TODO: Fill this in with what to do
+                    } else {
+                        experiment.runInstruction(ins);
+                        jTextAreaOutput.append(ins.toString());
+                        jTextAreaOutput.append("\n");
+                    }
+
+                }
             } else {
                 throw new IllegalArgumentException("Cannot run negative number of incorporation cycles.");
             }
@@ -441,18 +450,19 @@ public class WindowEventDemo extends javax.swing.JFrame {
             // experiment.cyc0LastStep();
 
             List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0 END");
-                experiment.initiate();
-        	for (Instruction ins : incorp0Instr) {
-        		if (ins.getName().equals("IMAGING")) {
-        			experiment.showMessage("Please run MultiD acquisition manually", "Message");
-        		} else if (ins.isWaitUserInstruction()) {
-        			break;
-        		} else {
-        			experiment.runInstruction(ins);
-                                jTextAreaOutput.append(ins.toString());
-        		}
+            experiment.initiate();
+            for (Instruction ins : incorp0Instr) {
+                if (ins.getName().equals("IMAGING")) {
+                    experiment.showMessage("Please run MultiD acquisition manually", "Message");
+                } else if (ins.isWaitUserInstruction()) {
+                    break;
+                } else {
+                    experiment.runInstruction(ins);
+                    jTextAreaOutput.append(ins.toString());
+                    jTextAreaOutput.append("\n");
+                }
 
-        	}
+            }
 
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
