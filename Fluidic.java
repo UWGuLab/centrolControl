@@ -385,7 +385,7 @@ public class Fluidic {
         System.out.println("It is time to take 280 seconds break.");
         //hold for 280 seconds break
         Thread.sleep(280000);
-        System.out.println("Cleavage Buffer Port 21 NormalSpeed 100uL.");
+        System.out.println("Cleavage Buffer Port 9 NormalSpeed 100uL.");
         //normal speed
         runNCyclesAtNormSpeed(100);
 
