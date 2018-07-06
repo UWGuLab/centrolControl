@@ -23,8 +23,6 @@ import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
 import org.micromanager.utils.MMScriptException;
 
-import com.sun.org.apache.bcel.internal.generic.Instruction;
-
 import org.micromanager.api.PositionList;
 
 /**
@@ -122,6 +120,11 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 btnContinueCyc0MouseClicked(evt);
             }
         });
+        btnContinueCyc0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContinueCyc0ActionPerformed(evt);
+            }
+        });
 
         LabelNumOfCyc.setText("Number Of Cycles");
 
@@ -213,11 +216,13 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 experiment.initiate();
         	for (Instruction ins : washInstr) {
         		if (ins.getName().equals("IMAGING")) {
-        			gui_.runAcquisition("Incorp", saveDirectory);
+                                continue;
         		} else if (ins.isWaitUserInstruction()) {
-        			//TODO: Fill this in with what to do
+        			experiment.showMessage("Wash is done.", "Wash");
         		} else {
         			experiment.runInstruction(ins);
+                                jTextAreaOutput.append(ins.toString());
+
         		}
         		
         	}
@@ -237,7 +242,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 experiment.initiate();
         	for (Instruction ins : injectBufferInstr) {
         		if (ins.getName().equals("IMAGING")) {
-        			gui_.runAcquisition("Incorp", saveDirectory);
+        			continue;
         		} else if (ins.isWaitUserInstruction()) {
         			//TODO: Fill this in with what to do
         		} else {
@@ -251,9 +256,9 @@ public class WindowEventDemo extends javax.swing.JFrame {
         	
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        //} catch (FileNotFoundException ex) {
+        //    Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
+        //} catch (IOException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             System.out.println("There was an error.");
@@ -263,15 +268,15 @@ public class WindowEventDemo extends javax.swing.JFrame {
     private void btnCyc0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCyc0ActionPerformed
         try {
             // TODO add your handling code here:
-            // experiment.startIncorp0();
+             //experiment.startIncorp0();
         	
-        	List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0");
+        	List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0 START");
                 experiment.initiate();
         	for (Instruction ins : incorp0Instr) {
         		if (ins.getName().equals("IMAGING")) {
-        			gui_.runAcquisition("Incorp", saveDirectory);
+        			experiment.showMessage("Please run MultiD acquisition manually", "Message");
         		} else if (ins.isWaitUserInstruction()) {
-        			//TODO: Fill this in with what to do
+        			break;
         		} else {
         			experiment.runInstruction(ins);
         		}
@@ -282,9 +287,9 @@ public class WindowEventDemo extends javax.swing.JFrame {
         	
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        //} catch (FileNotFoundException ex) {
+         //   Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
+        //} catch (IOException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             System.out.println("There was an error.");
@@ -433,7 +438,22 @@ public class WindowEventDemo extends javax.swing.JFrame {
     private void btnContinueCyc0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinueCyc0MouseClicked
         try {
             // TODO add your handling code here:
-            experiment.cyc0LastStep();
+            // experiment.cyc0LastStep();
+
+            List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0 END");
+                experiment.initiate();
+        	for (Instruction ins : incorp0Instr) {
+        		if (ins.getName().equals("IMAGING")) {
+        			experiment.showMessage("Please run MultiD acquisition manually", "Message");
+        		} else if (ins.isWaitUserInstruction()) {
+        			break;
+        		} else {
+        			experiment.runInstruction(ins);
+                                jTextAreaOutput.append(ins.toString());
+        		}
+
+        	}
+
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -444,6 +464,10 @@ public class WindowEventDemo extends javax.swing.JFrame {
     private void jFormattedTextFieldOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldOutputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFormattedTextFieldOutputActionPerformed
+
+    private void btnContinueCyc0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinueCyc0ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnContinueCyc0ActionPerformed
 
     /**
      * @param args the command line arguments

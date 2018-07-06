@@ -120,8 +120,8 @@ public class Fluidic {
             Integer valve = params.get(0);
             Integer speed = params.get(1);
             Integer amount = params.get(2);
-            
-            the_pump.setMaxSpeed(speed * 2000)
+
+            the_pump.setMaxSpeed(speed * 3333);
             the_selector.switchValve(valve);
             Thread.sleep(1000);
             runNCycles(amount);
@@ -131,7 +131,7 @@ public class Fluidic {
     
     public void initiate() {
     	the_pump.flipToWaster();
-    	the pump.initialize();
+    	the_pump.initialize();
     }
 
     public void wash() throws InterruptedException {

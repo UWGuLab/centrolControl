@@ -51,7 +51,7 @@ public class Instruction {
         for (Integer i : parameters) {
         	copy.add(i);
         	if (this.name.equals("WAIT") && parameters.size() == 1 && i.equals(new Integer(-1))) {
-        		this.isWaitUser == true;
+        		this.isWaitUser = true;
         	}
         }
         

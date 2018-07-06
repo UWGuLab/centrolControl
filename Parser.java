@@ -1,8 +1,6 @@
 package centrolControl;
 import java.util.*;
 
-import com.sun.org.apache.bcel.internal.generic.Instruction;
-
 import java.io.*;
 
 
@@ -37,7 +35,7 @@ public class Parser {
     public Parser() {
     	
     	// Instantiates all fields
-    	this.path = NULL;
+    	this.path = null;
     	this.instr = new ArrayList<Instruction>();
         this.sections = new ArrayList<Map<String, Integer>>();
     }
@@ -49,7 +47,7 @@ public class Parser {
      * @param path is a String representing the path of the Instruction file
      */
     public Parser(String path) {
-        parseFile(path)
+        parseFile(path);
     }
     
     /**
@@ -57,7 +55,7 @@ public class Parser {
      * 
      * @param path is a String representing the path of the Instruction file
      */
-    public void parseFile(String Path) {
+    public void parseFile(String path) {
     	
     	// Instantiates all fields
     	this.path = path;
@@ -137,7 +135,7 @@ public class Parser {
                             Integer n = new Integer(p);
                             pars.add(n);
                             if (pars.size() == 2 && (n > 5 || n < 0)) {
-                            	throw new IllegalArgumentException("The speed cannot be greater than 5 or less than 0.")
+                            	throw new IllegalArgumentException("The speed cannot be greater than 5 or less than 0.");
                             }
                         } catch (NumberFormatException e) {
                             if (name.isEmpty()) {
@@ -219,29 +217,29 @@ public class Parser {
     	sectionName = sectionName.toUpperCase();
     	
     	// Finds the section number
-    	int ind = 0;
     	Iterator itr = sections.iterator();
     	while (itr.hasNext()) {
     		
     		// Gets the next section
-    		sectionMap = itr.next();
-    		start = sectionMap.get(sectionName);
+    		Map<String, Integer> sectionMap = (Map<String, Integer>) itr.next();
+    		Integer start = sectionMap.get(sectionName);
     		
-    		if (start == NULL) {
+    		if (start == null) {
     			continue;
     		} else {
     			if (itr.hasNext()) {
-    				sectionMapNext = itr.next();
-    				end = sectionMapNext.values().remove();
-    				return instr.subList(start, end)
+    				Map<String, Integer> sectionMapNext = (Map<String, Integer>) itr.next();
+    				Collection<Integer> endList = sectionMapNext.values();
+                                Integer end = endList.iterator().next();
+
+    				return instr.subList(start, end);
     			} else {
     				return instr.subList(start, instr.size());
     			}
     		}
     		
-    		ind++;
     	}
-    	return NULL;
+    	return null;
     	
     }
  
@@ -250,8 +248,8 @@ public class Parser {
      * Checks if this Parser object already has Instructions or not
      */
     public boolean isEmpty() {
-    	if (this.path == NULL && this.instr.isEmpty() && this.sections.isEmpty()) {
-    		return true
+    	if (this.path == null && this.instr.isEmpty() && this.sections.isEmpty()) {
+    		return true;
     	}
     	return false;
     }
