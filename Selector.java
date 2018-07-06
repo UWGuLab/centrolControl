@@ -107,6 +107,7 @@ public class Selector {
                     break;
                 case 23:
                     command = "*GO23\r";
+                    break;
                 default:
                     command = "Invalid valve selection";
                     throw new IllegalArgumentException(command);

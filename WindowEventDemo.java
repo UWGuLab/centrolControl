@@ -10,6 +10,7 @@
  */
 package centrolControl;
 
+import clojure.core$resultset_seq$thisfn__4495;
 import java.io.File;
 import java.util.*;
 import java.io.FileNotFoundException;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
@@ -36,6 +38,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
     protected Parser instr_set;
     protected MMStudio gui_;
     private Preferences pref = Preferences.userRoot().node(getClass().getName());
+    
 
     /** Creates new form WindowEventDemo */
     public WindowEventDemo() {
@@ -48,6 +51,8 @@ public class WindowEventDemo extends javax.swing.JFrame {
         String instructionListFile = fileChooser();
         instructionListFile = instructionListFile.replace("\\", "\\\\");
         instr_set.parseFile(instructionListFile);
+
+        
 
     }
 
@@ -203,8 +208,18 @@ public class WindowEventDemo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void display(String inputs) {
-        jTextAreaOutput.append(inputs);
+    public void updateTextArea(final String inputs) {
+        System.out.println(inputs);
+        (new Thread() {
+            @Override
+            public void run(){
+                try{
+                    jTextAreaOutput.append(inputs + "\n");
+                } catch (Exception exception) {
+                    System.out.println("There was an error in the thread.");
+                }
+            }
+        }).start();
     }
 
     private void btnWashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWashActionPerformed
@@ -221,8 +236,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     experiment.showMessage("Wash is done.", "Wash");
                 } else {
                     experiment.runInstruction(ins);
-                    jTextAreaOutput.append(ins.toString());
-                    jTextAreaOutput.append("\n");
+                    updateTextArea(ins.toString());
 
                 }
 
@@ -245,11 +259,10 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 if (ins.getName().equals("IMAGING")) {
                     continue;
                 } else if (ins.isWaitUserInstruction()) {
-                    //TODO: Fill this in with what to do
+                    experiment.showMessage("Buffer Injection is done.", "Message");
                 } else {
                     experiment.runInstruction(ins);
-                    jTextAreaOutput.append(ins.toString());
-                    jTextAreaOutput.append("\n");
+                    updateTextArea(ins.toString());
                 }
 
             }
@@ -265,6 +278,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             System.out.println("There was an error.");
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnInjectBufferActionPerformed
 
@@ -279,11 +293,11 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 if (ins.getName().equals("IMAGING")) {
                     experiment.showMessage("Please run MultiD acquisition manually", "Message");
                 } else if (ins.isWaitUserInstruction()) {
+                    experiment.showMessage("Please select FOV", "Message");
                     break;
                 } else {
                     experiment.runInstruction(ins);
-                    jTextAreaOutput.append(ins.toString());
-                    jTextAreaOutput.append("\n");
+                    updateTextArea(ins.toString());
                 }
 
             }
@@ -345,8 +359,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                             //TODO: Fill this in with what to do
                         } else {
                             experiment.runInstruction(ins);
-                            jTextAreaOutput.append(ins.toString());
-                            jTextAreaOutput.append("\n");
+                            updateTextArea(ins.toString());
                         }
 
                     }
@@ -365,8 +378,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                         //TODO: Fill this in with what to do
                     } else {
                         experiment.runInstruction(ins);
-                        jTextAreaOutput.append(ins.toString());
-                        jTextAreaOutput.append("\n");
+                        updateTextArea(ins.toString());
                     }
 
                 }
@@ -458,8 +470,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     break;
                 } else {
                     experiment.runInstruction(ins);
-                    jTextAreaOutput.append(ins.toString());
-                    jTextAreaOutput.append("\n");
+                    updateTextArea(ins.toString());
                 }
 
             }
