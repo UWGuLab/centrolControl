@@ -38,7 +38,6 @@ public class WindowEventDemo extends javax.swing.JFrame {
     protected Parser instr_set;
     protected MMStudio gui_;
     private Preferences pref = Preferences.userRoot().node(getClass().getName());
-    
 
     /** Creates new form WindowEventDemo */
     public WindowEventDemo() {
@@ -52,7 +51,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         instructionListFile = instructionListFile.replace("\\", "\\\\");
         instr_set.parseFile(instructionListFile);
 
-        
+
 
     }
 
@@ -211,9 +210,10 @@ public class WindowEventDemo extends javax.swing.JFrame {
     public void updateTextArea(final String inputs) {
         System.out.println(inputs);
         (new Thread() {
+
             @Override
-            public void run(){
-                try{
+            public void run() {
+                try {
                     jTextAreaOutput.append(inputs + "\n");
                 } catch (Exception exception) {
                     System.out.println("There was an error in the thread.");
@@ -226,7 +226,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             // experiment.wash();
-
+            updateTextArea("\nStart Washing!");
             List<Instruction> washInstr = instr_set.getSectionInstructions("WASH");
             experiment.initiate();
             for (Instruction ins : washInstr) {
@@ -252,7 +252,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             // experiment.injectBuffer();
-
+            updateTextArea("\nStart Buffer Injection");
             List<Instruction> injectBufferInstr = instr_set.getSectionInstructions("BUFFER INJECTION");
             experiment.initiate();
             for (Instruction ins : injectBufferInstr) {
@@ -286,7 +286,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             //experiment.startIncorp0();
-
+            updateTextArea("\nStart Cycle 0");
             List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0 START");
             experiment.initiate();
             for (Instruction ins : incorp0Instr) {
@@ -349,7 +349,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
             if (numOfCyc > 1) {
                 for (int i = 0; i < numOfCyc; i++) {
-
+                    updateTextArea("\nStart sequencing cycle " + i + 1);
                     List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
                     experiment.initiate();
                     for (Instruction ins : incorpNInstr) {
