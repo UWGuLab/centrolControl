@@ -11,20 +11,25 @@
 package centrolControl;
 
 import clojure.core$resultset_seq$thisfn__4495;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.util.*;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import java.util.zip.DataFormatException;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
 import org.micromanager.utils.MMScriptException;
-
 import org.micromanager.api.PositionList;
 
 /**
@@ -38,6 +43,9 @@ public class WindowEventDemo extends javax.swing.JFrame {
     protected Parser instr_set;
     protected MMStudio gui_;
     private Preferences pref = Preferences.userRoot().node(getClass().getName());
+    protected FileWriter fw = null;
+    protected BufferedWriter bw = null;
+    protected PrintWriter out = null;
 
     /** Creates new form WindowEventDemo */
     public WindowEventDemo() {
@@ -50,9 +58,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
         String instructionListFile = fileChooser();
         instructionListFile = instructionListFile.replace("\\", "\\\\");
         instr_set.parseFile(instructionListFile);
-
-
-
+        writeToLog("New Experiment", false);
     }
 
     /** This method is called from within the constructor to
@@ -222,11 +228,46 @@ public class WindowEventDemo extends javax.swing.JFrame {
         }).start();
     }
 
+    public void writeToLog(final String inputs, boolean append) {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            fw = new FileWriter("X:\\Gu-microscope\\sequencing_log.txt", append);
+            bw = new BufferedWriter(fw);
+            out = new PrintWriter(bw);
+            out.println();
+            out.println(dateFormat.format(date));
+            out.println(inputs);
+            out.close();
+        } catch (IOException e) {
+            System.err.println(e);
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+            try {
+                if (bw != null) {
+                    bw.close();
+                }
+            } catch (IOException e) {
+                System.err.println(e);
+            }
+            try {
+                if (fw != null) {
+                    fw.close();
+                }
+            } catch (IOException e) {
+                System.err.println(e);
+            }
+        }
+    }
+
     private void btnWashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWashActionPerformed
         try {
             // TODO add your handling code here:
             // experiment.wash();
             updateTextArea("\nStart Washing!");
+            writeToLog("\nStart Washing!", true);
             List<Instruction> washInstr = instr_set.getSectionInstructions("WASH");
             experiment.initiate();
             for (Instruction ins : washInstr) {
@@ -237,7 +278,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 } else {
                     experiment.runInstruction(ins);
                     updateTextArea(ins.toString());
-
+                    writeToLog(ins.toString(), true);
                 }
 
             }
@@ -253,6 +294,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             // TODO add your handling code here:
             // experiment.injectBuffer();
             updateTextArea("\nStart Buffer Injection");
+            writeToLog("\nStart Buffer Injection", true);
             List<Instruction> injectBufferInstr = instr_set.getSectionInstructions("BUFFER INJECTION");
             experiment.initiate();
             for (Instruction ins : injectBufferInstr) {
@@ -263,6 +305,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 } else {
                     experiment.runInstruction(ins);
                     updateTextArea(ins.toString());
+                    writeToLog(ins.toString(), true);
                 }
 
             }
@@ -287,6 +330,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             // TODO add your handling code here:
             //experiment.startIncorp0();
             updateTextArea("\nStart Cycle 0");
+            writeToLog("\nStart Cycle 0", true);
             List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0 START");
             experiment.initiate();
             for (Instruction ins : incorp0Instr) {
@@ -298,6 +342,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 } else {
                     experiment.runInstruction(ins);
                     updateTextArea(ins.toString());
+                    writeToLog(ins.toString(), true);
                 }
 
             }
@@ -350,6 +395,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             if (numOfCyc > 1) {
                 for (int i = 0; i < numOfCyc; i++) {
                     updateTextArea("\nStart sequencing cycle " + i + 1);
+                    writeToLog("\nStart sequencing cycle " + i + 1, true);
                     List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
                     experiment.initiate();
                     for (Instruction ins : incorpNInstr) {
@@ -360,6 +406,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                         } else {
                             experiment.runInstruction(ins);
                             updateTextArea(ins.toString());
+                            writeToLog(ins.toString(), true);
                         }
 
                     }
@@ -377,6 +424,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     } else {
                         experiment.runInstruction(ins);
                         updateTextArea(ins.toString());
+                        writeToLog(ins.toString(), true);
                     }
 
                 }
@@ -469,6 +517,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                 } else {
                     experiment.runInstruction(ins);
                     updateTextArea(ins.toString());
+                    writeToLog(ins.toString(), true);
                 }
 
             }

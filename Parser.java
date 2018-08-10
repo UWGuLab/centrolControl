@@ -134,8 +134,8 @@ public class Parser {
                         try {
                             Integer n = new Integer(p);
                             pars.add(n);
-                            if (pars.size() == 2 && (n > 5 || n < 0)) {
-                            	throw new IllegalArgumentException("The speed cannot be greater than 5 or less than 0.");
+                            if (pars.size() == 2 && (n > 3 || n < 0)) {
+                            	throw new IllegalArgumentException("The speed cannot be greater than 3 or less than 0.");
                             }
                         } catch (NumberFormatException e) {
                             if (name.isEmpty()) {
