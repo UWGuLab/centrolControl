@@ -125,8 +125,7 @@ public class Instruction {
         
         for (Integer i : parameters) {
         	out += "\t" + i;
-        }
-        
+        }        
         return out;
     }
 }

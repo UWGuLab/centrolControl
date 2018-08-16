@@ -1,20 +1,13 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * WindowEventDemo.java
  *
  * Created on Apr 25, 2018, 5:33:17 PM
  */
 package centrolControl;
 
-import clojure.core$resultset_seq$thisfn__4495;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.util.*;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,9 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import java.util.zip.DataFormatException;
 import javax.swing.JFileChooser;
-import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.micromanager.MMStudio;
 import org.micromanager.utils.MMException;
@@ -33,32 +24,34 @@ import org.micromanager.utils.MMScriptException;
 import org.micromanager.api.PositionList;
 
 /**
+ * This is the UI and the master function, each button represents one module, or
+ * one step in the sequencing experiment. 
  *
  * @author Nikon
  */
 public class WindowEventDemo extends javax.swing.JFrame {
 
     //Fluidic Control
-    protected Fluidic experiment;
-    protected Parser instr_set;
+    protected Fluidic experiment; //fluidic object will control the behavior of pump and valve selector
+    protected Parser instr_set; //parser object will keep track of instruction files
     protected MMStudio gui_;
-    private Preferences pref = Preferences.userRoot().node(getClass().getName());
+    private Preferences pref = Preferences.userRoot().node(getClass().getName());//keep track of the last used directory
     protected FileWriter fw = null;
     protected BufferedWriter bw = null;
     protected PrintWriter out = null;
 
     /** Creates new form WindowEventDemo */
     public WindowEventDemo() {
-        experiment = new Fluidic();
-        instr_set = new Parser();
+        experiment = new Fluidic(); //initialize a new experiment
+        instr_set = new Parser(); //initialize a new parser that handles instructions
         gui_ = new MMStudio(false);
-        initComponents();
+        initComponents(); //set up the UI elements
 
         Fluidic.showMessage("Please choose the intruction .txt file", "File Selection");
         String instructionListFile = fileChooser();
         instructionListFile = instructionListFile.replace("\\", "\\\\");
         instr_set.parseFile(instructionListFile);
-        writeToLog("New Experiment", false);
+        writeToLog("New Experiment", false); //create a log file
     }
 
     /** This method is called from within the constructor to
@@ -212,7 +205,11 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * update the output window with the progress of sequencing experiment
+     *
+     * @param inputs the text information will be updated
+     */
     public void updateTextArea(final String inputs) {
         System.out.println(inputs);
         (new Thread() {
@@ -228,6 +225,12 @@ public class WindowEventDemo extends javax.swing.JFrame {
         }).start();
     }
 
+    /**
+     * write the progress of sequencing experiment to log file
+     * 
+     * @param inputs the text information will be written to the log file
+     * @param append the parameter to decide whether the the new information will be written to a new text file or be appended to the current one
+     */
     public void writeToLog(final String inputs, boolean append) {
         try {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -262,6 +265,11 @@ public class WindowEventDemo extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * perform the 'wash' operation
+     * 
+     * @param evt event trigger
+     */
     private void btnWashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWashActionPerformed
         try {
             // TODO add your handling code here:
@@ -280,15 +288,17 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     updateTextArea(ins.toString());
                     writeToLog(ins.toString(), true);
                 }
-
             }
-
-
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnWashActionPerformed
 
+    /**
+     * perform the 'inject buffer' operation
+     *
+     * @param evt event trigger
+     */
     private void btnInjectBufferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInjectBufferActionPerformed
         try {
             // TODO add your handling code here:
@@ -307,12 +317,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     updateTextArea(ins.toString());
                     writeToLog(ins.toString(), true);
                 }
-
             }
-
-
-
-
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
             //} catch (FileNotFoundException ex) {
@@ -325,6 +330,11 @@ public class WindowEventDemo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnInjectBufferActionPerformed
 
+    /**
+     * perform the 'incorp 0' operation
+     * 
+     * @param evt event trigger
+     */
     private void btnCyc0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCyc0ActionPerformed
         try {
             // TODO add your handling code here:
@@ -344,11 +354,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     updateTextArea(ins.toString());
                     writeToLog(ins.toString(), true);
                 }
-
             }
-
-
-
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
             //} catch (FileNotFoundException ex) {
@@ -360,6 +366,11 @@ public class WindowEventDemo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCyc0ActionPerformed
 
+    /**
+     * open the acquisition control dialog of micro-manager
+     *
+     * @param evt
+     */
     private void btnInvokeMMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvokeMMActionPerformed
         // TODO add your handling code here:
         //Imaging System Control
@@ -369,6 +380,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnInvokeMMActionPerformed
 
+    
     private void btnSequencingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSequencingMouseClicked
         try {
             int numOfCyc = Integer.parseInt(jFormattedTextFieldOutput.getText());

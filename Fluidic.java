@@ -11,6 +11,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JOptionPane;
 
+/*
+ * This function acts as both the
+ */
 public class Fluidic {
 
     //TODO: define pump and selector
