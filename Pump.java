@@ -11,6 +11,7 @@ public class Pump implements SerialPortPacketListener {
 
     private SerialPort pumpPort;
     protected int maxVol = 250; //max volume is 250 micro liters.
+    protected int resolution = 48000; //resolution of pump movement.
     private String _validator;
     public final Pattern pattern = Pattern.compile("/0`");
     /*

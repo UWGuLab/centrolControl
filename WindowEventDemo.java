@@ -27,7 +27,7 @@ import org.micromanager.api.PositionList;
  * This is the UI and the master function, each button represents one module, or
  * one step in the sequencing experiment. 
  *
- * @author Nikon
+ * @author Donny Sun, Kitty Li
  */
 public class WindowEventDemo extends javax.swing.JFrame {
 
@@ -205,6 +205,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
     /**
      * update the output window with the progress of sequencing experiment
      *
@@ -380,16 +381,23 @@ public class WindowEventDemo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnInvokeMMActionPerformed
 
-    
+    /**
+     * Perform the automated sequencing operation
+     *
+     * @param evt mouse click on the 'start sequencing' button
+     * @param pops out a window and ask user to choose the Multi-D configuration file
+     * @param pops out a window and ask user to choose the FOV list file
+     * @param pops out a window and ask user the directory to save the image files
+     */
     private void btnSequencingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSequencingMouseClicked
         try {
+            // reads the number of incorporation cycles from text field
             int numOfCyc = Integer.parseInt(jFormattedTextFieldOutput.getText());
 
             Fluidic.showMessage("Please choose the Multi-D configuration file", "File Selection");
             String acquisitionConfigFile = fileChooser();
             acquisitionConfigFile = acquisitionConfigFile.replace("\\", "\\\\");
             gui_.loadAcquisition(acquisitionConfigFile);
-//            gui_.loadAcquisition("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\AcqSettings20180427.xml");
 
 
             PositionList positionList = gui_.getPositionList();
@@ -397,12 +405,12 @@ public class WindowEventDemo extends javax.swing.JFrame {
             String positionListFile = fileChooser();
             positionListFile = positionListFile.replace("\\", "\\\\");
             positionList.load(positionListFile);
-//            positionList.load("C:\\Users\\Nikon\\Desktop\\Micromanager_test\\20180427_testrun\\20180427_test.pos");
 
 
             Fluidic.showMessage("Please choose where you want to save the images", "Save Directory");
             String saveDirectory = dirChooser();
             saveDirectory = saveDirectory.replace("\\", "\\\\");
+
 
             if (numOfCyc > 1) {
                 for (int i = 0; i < numOfCyc; i++) {
@@ -414,16 +422,16 @@ public class WindowEventDemo extends javax.swing.JFrame {
                         if (ins.getName().equals("IMAGING")) {
                             gui_.runAcquisition("Incorp", saveDirectory);
                         } else if (ins.isWaitUserInstruction()) {
-                            //TODO: Fill this in with what to do
+                            continue;
                         } else {
                             experiment.runInstruction(ins);
                             updateTextArea(ins.toString());
                             writeToLog(ins.toString(), true);
                         }
-
                     }
                 }
-
+                // we have a else statement becuase perviously the last step of
+                // sequencing has slightly different operation process.
             } else if (numOfCyc == 1) {
 
                 List<Instruction> incorpNInstr = instr_set.getSectionInstructions("INCORP N");
@@ -432,17 +440,18 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     if (ins.getName().equals("IMAGING")) {
                         gui_.runAcquisition("Incorp", saveDirectory);
                     } else if (ins.isWaitUserInstruction()) {
-                        //TODO: Fill this in with what to do
+                        continue;
                     } else {
                         experiment.runInstruction(ins);
                         updateTextArea(ins.toString());
                         writeToLog(ins.toString(), true);
                     }
-
                 }
             } else {
                 throw new IllegalArgumentException("Cannot run negative number of incorporation cycles.");
             }
+            // close and stop the image acuisition, elsewise the shutter will
+            // kept on, sometimes so is the light source.
             gui_.closeSequence(true);
             gui_.closeAllAcquisitions();
 
@@ -458,12 +467,12 @@ public class WindowEventDemo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSequencingMouseClicked
 
     private String fileChooser() {
-        // Retrieve the selected path or use
-        // an empty string if no path has
+        // Retrieve the selected path or use an empty string if no path has
         // previously been selected
         String path = pref.get("DEFAULT_PATH", "");
 
         JFileChooser chooser = new JFileChooser();
+        // file type filter
         FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("position, xml and txt files", "xml", "pos", "txt");
         chooser.addChoosableFileFilter(fileFilter);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -481,13 +490,11 @@ public class WindowEventDemo extends javax.swing.JFrame {
             pref.put("DEFAULT_PATH", f.getAbsolutePath());
             return f.getAbsolutePath();
         }
-
         return chooser.getSelectedFile().getAbsolutePath();
     }
 
     private String dirChooser() {
-        // Retrieve the selected path or use
-        // an empty string if no path has
+        // Retrieve the selected path or use an empty string if no path has
         // previously been selected
         String path = pref.get("DEFAULT_PATH", "");
 
@@ -514,16 +521,18 @@ public class WindowEventDemo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSequencingActionPerformed
 
+    /**
+     * Perform Incorp 0 last step operation - add more Image Buffer
+     *
+     * @param evt mouse click trigger event
+     */
     private void btnContinueCyc0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContinueCyc0MouseClicked
         try {
-            // TODO add your handling code here:
-            // experiment.cyc0LastStep();
-
             List<Instruction> incorp0Instr = instr_set.getSectionInstructions("INCORP 0 END");
             experiment.initiate();
             for (Instruction ins : incorp0Instr) {
                 if (ins.getName().equals("IMAGING")) {
-                    experiment.showMessage("Please run MultiD acquisition manually", "Message");
+                    experiment.showMessage("Please run Image MultiD Acquisition manually", "Message");
                 } else if (ins.isWaitUserInstruction()) {
                     break;
                 } else {
@@ -531,13 +540,11 @@ public class WindowEventDemo extends javax.swing.JFrame {
                     updateTextArea(ins.toString());
                     writeToLog(ins.toString(), true);
                 }
-
             }
-
         } catch (InterruptedException ex) {
             Logger.getLogger(WindowEventDemo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            System.out.println("There was an error.");
+            System.out.println("There was an error in Incor0 last step.");
         }
     }//GEN-LAST:event_btnContinueCyc0MouseClicked
 
