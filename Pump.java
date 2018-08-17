@@ -6,36 +6,57 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//This is the pump object
+/**
+ * This is the class of Pump, it treats the pump as an object and defines all its
+ * behaviors. The function list here might not be the true representation of its
+ * full capabilities, please refer to the user manual for the full command list.
+ * I utilized the command predefined by the manufacture to send the operation
+ * command from this master program to the pump using serial port.
+ *
+ * @author Donny Sun
+ */
 public class Pump implements SerialPortPacketListener {
 
+    /**
+     * This pump object depends on the jSerialComm library, it has the following
+     * attributes:
+     * pumpPort -- SerialPort object, not intended to be modified by other classes
+     * maxVol -- the maximum volume of the syringe according to the specific model used
+     * resolution -- the maximum resolution of the syringe movement.
+     * validator_ -- temporarily saves the feedback info from pump via serial port
+     * pattern_ -- the compare pattern that helps to validate the status of pump.
+     *          , if it is currently idle (not busy), it will be read as '/0'
+     */
     private SerialPort pumpPort;
     protected int maxVol = 250; //max volume is 250 micro liters.
     protected int resolution = 48000; //resolution of pump movement.
-    private String _validator;
-    public final Pattern pattern = Pattern.compile("/0`");
-    /*
-     * Default constructor: instantiates a Pump object with user input
-     */
+    private String validator_;
+    public final Pattern pattern_ = Pattern.compile("/0`");
 
+    /**
+     * Instantiates the Pump object with the pass in serial port
+     *
+     * @param port the serial port used connects to the pump
+     */
     public Pump(SerialPort port) {
 
         this.pumpPort = port;
 
-        // Let user check the parameters to see if it is correct
+        // Display the parameters for user to check if they are correct
         System.out.println("BaudRate should be 9600: " + pumpPort.getBaudRate());
         System.out.println("DataBits should be 8: " + pumpPort.getNumDataBits());
         System.out.println("StopBits should be 1: " + pumpPort.getNumStopBits());
         System.out.println("Parity should be None: " + pumpPort.getParity());
 
-        //open the port
+        //open the port, instantiates the connection
         if (!pumpPort.isOpen()) {
             pumpPort.openPort();
             System.out.println("pump port has opened.");
-            pumpPort.addDataListener(this);
+            pumpPort.addDataListener(this); //add listener
         }
     }
 
+    // terminate the connection between pump and computer
     public void quit() {
         pumpPort.closePort();
         pumpPort.removeDataListener();
@@ -44,9 +65,9 @@ public class Pump implements SerialPortPacketListener {
     /*
      * Initialize the pump
      */
-    public void initialize(){
+    public void initialize() {
         getReady();
-        String command = "/1W4R\r"; //TODO: actually 1 is the device ID, might need to make it an available
+        String command = "/1W4R\r"; //TODO: 1 is the device ID, might need to make it a variable
         byte[] buf = command.getBytes();
         pumpPort.writeBytes(buf, buf.length);
     }
@@ -62,7 +83,7 @@ public class Pump implements SerialPortPacketListener {
      * position to the future position, if the syringe is moving upword, then
      * automatically flip the valve to waste, verse visa, flip to the selector.
      */
-    public void setPosition(int newPosition){
+    public void setPosition(int newPosition) {
         getReady();
         if (newPosition < 0 | newPosition > 48000) {
             throw new IllegalArgumentException("The syringe range should be within 0 to 48,000");
@@ -184,15 +205,14 @@ public class Pump implements SerialPortPacketListener {
     /* query the pump status with a carriage return (hex 0D, decimal 13) character
      * to determine if the pump is busy or the move has finished.
      */
-
     private boolean getStatus() throws InterruptedException {
-        _validator = null;
+        validator_ = null;
         String command = "/1\r";
         byte[] buf = command.getBytes();
         pumpPort.writeBytes(buf, buf.length);
         Thread.sleep(500);
-        if (_validator != null) {
-            Matcher matcher = pattern.matcher(_validator);
+        if (validator_ != null) {
+            Matcher matcher = pattern_.matcher(validator_);
             if (matcher.find()) {
 //                System.out.println("Ready");
                 return true;
@@ -204,7 +224,7 @@ public class Pump implements SerialPortPacketListener {
 
     }
 
-    public void getReady(){
+    public void getReady() {
         try {
             Thread.sleep(500);
             while (!getStatus()) {
@@ -234,8 +254,7 @@ public class Pump implements SerialPortPacketListener {
         }
 //        WindowEventDemo.display("\n");
 //        System.out.println(result);
-        _validator = String.valueOf(result);
-//        System.out.println(_validator);
+        validator_ = String.valueOf(result);
+//        System.out.println(validator_);
     }
-
 }

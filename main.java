@@ -1,5 +1,10 @@
 package centrolControl;
 
+/**
+ * Currently, the sole purpose of this main function is to test the program.
+ *
+ * @author Donny Sun
+ */
 public class main {
 
     public static void main(String[] args) throws Exception {
