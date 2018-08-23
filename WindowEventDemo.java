@@ -243,6 +243,31 @@ public class WindowEventDemo extends javax.swing.JFrame {
             out.println(dateFormat.format(date));
             out.println(inputs);
             out.close();
+
+            // create html file
+            fw = new FileWriter("X:\\Gu-microscope\\sequencing_log.html", append);
+            bw = new BufferedWriter(fw);
+            out = new PrintWriter(bw);
+            out.print(Html.textToHTML("\n"));
+            out.print(Html.textToHTML(dateFormat.format(date) + "\n"));
+            out.print(Html.textToHTML(inputs + "\n"));
+            out.close();
+
+//            JSch jsch = new JSch();
+//            Session session = null;
+//            session = jsch.getSession("username","hostname",22);
+//            session.setPassword("password");
+//            session.setConfig("StrictHostKeyChecking", "no");
+//                session.connect();
+//            ChannelSftp channel = null;
+//            channel = (ChannelSftp)session.openChannel("sftp");
+//            channel.connect();
+//                File localFile = new File("localfilepath");
+//                //If you want you can change the directory using the following line.
+//                channel.cd(RemoteDirectoryPath)
+//            channel.put(new FileInputStream(localFile),localFile.getName());
+//                channel.disconnect();
+//            session.disconnect();
         } catch (IOException e) {
             System.err.println(e);
         } finally {
