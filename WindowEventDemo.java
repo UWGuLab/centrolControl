@@ -245,7 +245,7 @@ public class WindowEventDemo extends javax.swing.JFrame {
             out.close();
 
             // create html file
-            fw = new FileWriter("X:\\Gu-microscope\\sequencing_log.html", append);
+            fw = new FileWriter("W:\\log\\sequencing_log.html", append);
             bw = new BufferedWriter(fw);
             out = new PrintWriter(bw);
             out.print(Html.textToHTML("\n"));
