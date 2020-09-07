@@ -180,7 +180,7 @@ public class Pump implements SerialPortPacketListener {
     /* dispose liquid /1DxxxxxR the syringe will move xx,xxx steps towards to zero position
      * @param volume amount of liquid to dispose in terms of steps
      */
-    public void dispose(int volume) {
+    public void dispense(int volume) {
         //TODO: integrate get current position method so it will know if ask to dispose more than
         // it actually have.
         getReady();

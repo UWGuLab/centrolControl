@@ -242,14 +242,14 @@ public class Fluidic {
             the_pump.setPosition(the_pump.resolution);
 
             the_pump.flipToWaster();
-            the_pump.dispose(the_pump.resolution);
+            the_pump.dispense(the_pump.resolution);
         }
         if (parameters[1] > 0) {
             the_pump.flipToSolution();
             the_pump.setPosition(parameters[1] * the_pump.resolution / the_pump.maxVol);
 
             the_pump.flipToWaster();
-            the_pump.dispose(parameters[1] * the_pump.resolution / the_pump.maxVol);
+            the_pump.dispense(parameters[1] * the_pump.resolution / the_pump.maxVol);
         }
         the_pump.getReady();
     }

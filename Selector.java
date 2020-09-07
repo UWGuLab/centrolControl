@@ -44,7 +44,7 @@ public class Selector {
     // TODO: TEST if function works
     // return the valve that is currently being used.
     public String getCurrentPosition() {
-        String command = "*CP\r"; //TODO: check if command is correct
+        String command = "CP\r"; //TODO: check if command is correct
         byte[] buf = command.getBytes();
         selectorPort.writeBytes(buf, buf.length);
         OutputStream stream = selectorPort.getOutputStream();
@@ -55,7 +55,7 @@ public class Selector {
     // TODO: TEST if function works
     // return a list of valid commands
     public String getValidCommands() {
-        String command = "*/?\r"; //TODO: check if command is correct
+        String command = "?\r"; //TODO: check if command is correct
         byte[] buf = command.getBytes();
         selectorPort.writeBytes(buf, buf.length);
         OutputStream stream = selectorPort.getOutputStream();
@@ -66,7 +66,7 @@ public class Selector {
     // TODO: TEST if function works
     // return the part number and date of the firmware
     public String getPartNumberAndFirmwareVersion() {
-        String command = "*VR\r"; // TODO: check if command is correct
+        String command = "VR\r"; // TODO: check if command is correct
         byte[] buf = command.getBytes();
         selectorPort.writeBytes(buf, buf.length);
         OutputStream stream = selectorPort.getOutputStream();
@@ -82,31 +82,31 @@ public class Selector {
 
             switch (this.currentPosition) {
                 case 9:
-                    command = "*GO09\r";
+                    command = "GO09\r";
                     break;
                 case 11:
-                    command = "*GO11\r";
+                    command = "GO11\r";
                     break;
                 case 13:
-                    command = "*GO13\r";
+                    command = "GO13\r";
                     break;
                 case 15:
-                    command = "*GO15\r";
+                    command = "GO15\r";
                     break;
                 case 17:
-                    command = "*GO17\r";
+                    command = "GO17\r";
                     break;
                 case 19:
-                    command = "*GO19\r";
+                    command = "GO19\r";
                     break;
                 case 20:
-                    command = "*GO20\r";
+                    command = "GO20\r";
                     break;
                 case 21:
-                    command = "*GO21\r";
+                    command = "GO21\r";
                     break;
                 case 23:
-                    command = "*GO23\r";
+                    command = "GO23\r";
                     break;
                 default:
                     command = "Invalid valve selection";
@@ -137,7 +137,7 @@ public class Selector {
     public void setBaudRate(int newRate) {
         String command = "";
         if (isValidBaudRate(newRate)) {
-            command = "*SB" + newRate + "\r";
+            command = "SB" + newRate + "\r";
             byte[] buf = command.getBytes();
             selectorPort.writeBytes(buf, buf.length);
         } else {
